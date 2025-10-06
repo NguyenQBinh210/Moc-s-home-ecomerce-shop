@@ -84,15 +84,7 @@ const Header = () => {
             >
               Search
             </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              iconName="Heart"
-              iconPosition="left"
-              className="text-text-secondary hover:text-primary"
-            >
-              Wishlist
-            </Button>
+
             <Button
               variant="ghost"
               size="sm"
@@ -141,10 +133,6 @@ const Header = () => {
                 <button className="flex items-center space-x-3 px-4 py-3 w-full text-left rounded-lg transition-warm font-medium text-text-secondary hover:text-primary hover:bg-primary/5">
                   <Icon name="Search" size={20} />
                   <span>Search</span>
-                </button>
-                <button className="flex items-center space-x-3 px-4 py-3 w-full text-left rounded-lg transition-warm font-medium text-text-secondary hover:text-primary hover:bg-primary/5">
-                  <Icon name="Heart" size={20} />
-                  <span>Wishlist</span>
                 </button>
                 <button className="flex items-center space-x-3 px-4 py-3 w-full text-left rounded-lg transition-warm font-medium text-text-secondary hover:text-primary hover:bg-primary/5">
                   <Icon name="ShoppingCart" size={20} />
