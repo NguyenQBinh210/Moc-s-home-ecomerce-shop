@@ -61,13 +61,13 @@ const Header = () => {
               <Link
                 key={item?.path}
                 to={item?.path}
-                className={`group relative flex items-center space-x-2 px-3 pt-2 pb-3 rounded-lg transition-warm font-medium ${
+                className={`group relative flex items-center space-x-1 px-2 pt-1 pb-2 rounded-lg transition-warm font-medium ${
                   isActivePath(item?.path)
                     ? "text-orange-600 bg-orange-500/10 after:absolute after:left-2 after:right-2 after:-bottom-1 after:h-0.5 after:rounded-full after:bg-orange-500 after:opacity-100 after:scale-x-100 after:transition-transform after:duration-300"
                     : "text-neutral-600 hover:text-orange-600 hover:bg-orange-400/5 after:absolute after:left-2 after:right-2 after:-bottom-1 after:h-0.5 after:rounded-full after:bg-orange-500 after:opacity-0 after:scale-x-0 after:transition-all after:duration-300 hover:after:opacity-100 hover:after:scale-x-100"
                 }`}
               >
-                <Icon name={item?.icon} size={24} />
+                <Icon name={item?.icon} size={18} />
                 <span>{item?.name}</span>
               </Link>
             ))}
@@ -128,8 +128,8 @@ const Header = () => {
                   onClick={closeMobileMenu}
                   className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-warm font-medium ${
                     isActivePath(item?.path)
-                      ? "text-primary bg-primary/10"
-                      : "text-text-secondary hover:text-primary hover:bg-primary/5"
+                      ? "text-orange-600 bg-orange-500/10 after:absolute after:left-2 after:right-2 after:-bottom-1 after:h-0.5 after:rounded-full after:bg-orange-500 after:opacity-100 after:scale-x-100 after:transition-transform after:duration-300"
+                      : "text-neutral-600 hover:text-orange-600 hover:bg-orange-400/5 after:absolute after:left-2 after:right-2 after:-bottom-1 after:h-0.5 after:rounded-full after:bg-orange-500 after:opacity-0 after:scale-x-0 after:transition-all after:duration-300 hover:after:opacity-100 hover:after:scale-x-100"
                   }`}
                 >
                   <Icon name={item?.icon} size={20} />

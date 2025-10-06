@@ -37,7 +37,7 @@ const HeroSection = () => {
                 <ArrowRight className="w-5 h-5" />
               </button>
             </Link>
-            <button className="px-8 py-4 rounded-lg border border-white text-white text-lg font-medium flex items-center justify-center gap-2 hover:bg-white hover:text-primary transition">
+            <button className="px-6 py-3 rounded-lg border border-white text-white text-lg font-medium flex items-center justify-center gap-2 hover:bg-white hover:text-amber-500 transition">
               <Play className="w-5 h-5" />
               Xem video
             </button>

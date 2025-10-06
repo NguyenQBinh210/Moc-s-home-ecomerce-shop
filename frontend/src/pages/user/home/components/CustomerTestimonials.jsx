@@ -98,7 +98,7 @@ const CustomerTestimonials = () => {
 
         {/* Main Testimonial */}
         <div className="relative">
-          <div className="bg-card rounded-3xl shadow-warm-lg overflow-hidden">
+          <div className="bg-card rounded-3xl shadow-warm-lg overflow-hidden shadow-xl">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
               {/* Testimonial Content */}
               <div className="p-8 lg:p-12 flex flex-col justify-center">
@@ -153,7 +153,7 @@ const CustomerTestimonials = () => {
               </div>
 
               {/* Before/After Images */}
-              <div className="relative h-96 lg:h-auto">
+              <div className="relative h-96 lg:h-auto ">
                 <div className="absolute inset-0 grid grid-cols-2 gap-1">
                   <div className="relative overflow-hidden">
                     <Image
@@ -182,13 +182,13 @@ const CustomerTestimonials = () => {
           {/* Nút trái phải */}
           <button
             onClick={prevTestimonial}
-            className="absolute left-1 top-1/2 -translate-y-1/2 w-12 h-12 bg-white shadow-warm rounded-full flex items-center justify-center text-text-primary hover:bg-primary hover:text-white transition-warm z-10"
+            className="absolute left-1 top-1/2 -translate-y-1/2 w-12 h-12 bg-white shadow-warm rounded-full flex items-center justify-center text-text-primary hover:bg-primary hover:text-amber-500 transition-warm z-10"
           >
             <Icon name="ChevronLeft" size={24} />
           </button>
           <button
             onClick={nextTestimonial}
-            className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white shadow-warm rounded-full flex items-center justify-center text-text-primary hover:bg-primary hover:text-white transition-warm z-10"
+            className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white shadow-warm rounded-full flex items-center justify-center text-text-primary hover:bg-primary hover:text-amber-500 transition-warm z-10"
           >
             <Icon name="ChevronRight" size={24} />
           </button>

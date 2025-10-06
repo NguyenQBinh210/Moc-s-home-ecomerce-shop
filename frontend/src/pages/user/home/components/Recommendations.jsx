@@ -165,8 +165,8 @@ const PersonalizedRecommendations = () => {
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex flex-wrap justify-center mb-12">
-          <div className="bg-card flex flex-row rounded-2xl p-2 shadow-warm border border-transparent">
+        <div className="flex flex-wrap justify-center mb-12 ">
+          <div className="bg-card flex flex-row rounded-2xl p-2 shadow-warm border border-transparent shadow-2xl">
             {tabs?.map((tab) => (
               <button
                 key={tab?.id}
@@ -189,7 +189,7 @@ const PersonalizedRecommendations = () => {
           {products?.[activeTab]?.map((product) => (
             <div
               key={product?.id}
-              className="group bg-card rounded-2xl overflow-hidden shadow-warm hover:shadow-warm-lg transition-warm hover-lift"
+              className="group bg-card rounded-2xl overflow-hidden shadow-warm hover:shadow-warm-lg transition-warm hover-lift border border-gray-200 hover:border-primary"
             >
               {/* Product Image */}
               <div className="relative h-64 overflow-hidden">

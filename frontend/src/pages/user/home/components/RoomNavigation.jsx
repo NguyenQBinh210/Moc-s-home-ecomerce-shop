@@ -86,7 +86,7 @@ const RoomNavigation = () => {
           {rooms?.map((room) => (
             <div
               key={room?.id}
-              className="group relative bg-card rounded-2xl overflow-hidden shadow-warm hover:shadow-warm-lg transition-warm hover-lift"
+              className="shadow-xl hover:shadow-2xl group relative bg-card rounded-2xl overflow-hidden shadow-warm hover:shadow-warm-lg transition-warm hover-lift"
             >
               {/* Room Image */}
               <div className="relative h-48 overflow-hidden">

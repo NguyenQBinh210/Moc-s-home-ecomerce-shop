@@ -130,7 +130,7 @@ const NewsletterSignup = () => {
           </div>
 
           {/* Right Form */}
-          <div className="bg-card rounded-3xl shadow-warm-lg p-8">
+          <div className="bg-card rounded-3xl shadow-warm-lg p-8 border shadow-2xl">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <h3 className="font-playfair text-2xl font-bold text-text-primary mb-2">
@@ -185,7 +185,7 @@ const NewsletterSignup = () => {
                 iconPosition="left"
                 fullWidth
                 disabled={!email || selectedStyles?.length === 0}
-                className="mt-8"
+                className="mt-8 bg-primary hover:bg-amber-100/90 "
               >
                 Đăng ký nhận thông tin
               </Button>
