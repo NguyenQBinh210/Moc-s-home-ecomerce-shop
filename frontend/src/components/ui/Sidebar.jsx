@@ -1,0 +1,199 @@
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router";
+import {
+  LayoutDashboard,
+  Trophy,
+  ShoppingBag,
+  Package,
+  BarChart3,
+  MessageSquare,
+  Settings,
+  LogOut,
+  Search,
+  Bell,
+  ChevronDown,
+  Crown,
+  Menu,
+  X,
+  FolderOpen,
+} from "lucide-react";
+
+const Sidebar = ({ children }) => {
+  const location = useLocation();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isLargeScreen, setIsLargeScreen] = useState(false);
+
+  const menuItems = [
+    { icon: LayoutDashboard, label: "Dashboard", path: "/admin", active: true },
+    { icon: Trophy, label: "Leaderboard", path: "/admin/leaderboard" },
+    { icon: Package, label: "Products", path: "/admin/product" },
+    { icon: FolderOpen, label: "Management", path: "/admin/management" },
+    { icon: ShoppingBag, label: "Order", path: "/admin/order" },
+    { icon: BarChart3, label: "Sales Report", path: "/admin/sale" },
+    { icon: MessageSquare, label: "Messages", path: "/admin/messages" },
+    { icon: Settings, label: "Settings", path: "/admin/settings" },
+  ];
+
+  // Handle responsive behavior
+  useEffect(() => {
+    const checkScreenSize = () => {
+      const large = window.innerWidth >= 1024;
+      setIsLargeScreen(large);
+      if (large) {
+        setSidebarOpen(true);
+      } else {
+        setSidebarOpen(false);
+      }
+    };
+
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    if (!isLargeScreen) {
+      setSidebarOpen(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Mobile Overlay */}
+      {sidebarOpen && !isLargeScreen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={closeSidebar}
+        />
+      )}
+
+      <div className="flex">
+        {/* Sidebar */}
+        <div
+          className={`
+          fixed lg:static inset-y-0 left-0 z-50
+          w-64 bg-white shadow-sm border-r border-gray-200 min-h-screen
+          transform transition-transform duration-300 ease-in-out
+          ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+          lg:translate-x-0
+        `}
+        >
+          {/* Logo */}
+          <div className="p-6 border-b border-gray-200">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-gradient-to-r from-amber-500 to-amber-600 rounded-lg flex items-center justify-center">
+                  <div className="w-4 h-4 bg-white rounded-sm"></div>
+                </div>
+                <span className="text-xl font-bold text-gray-900">Dabang</span>
+              </div>
+              {/* Close button for mobile */}
+              <button
+                onClick={closeSidebar}
+                className="lg:hidden p-1 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <X className="w-5 h-5 text-gray-600" />
+              </button>
+            </div>
+          </div>
+
+          {/* Navigation */}
+          <nav className="p-4 space-y-2">
+            {menuItems.map((item, index) => {
+              const Icon = item.icon;
+              const isActive = location.pathname === item.path;
+
+              return (
+                <Link
+                  key={index}
+                  to={item.path}
+                  onClick={closeSidebar}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                    isActive
+                      ? "bg-amber-500 text-white"
+                      : "text-gray-700 hover:bg-gray-100"
+                  }`}
+                >
+                  <Icon className="w-5 h-5" />
+                  <span className="font-medium">{item.label}</span>
+                </Link>
+              );
+            })}
+
+            {/* Sign Out */}
+            <button className="shadow-2xl w-full flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+              <Link
+                to={"/"}
+                className="flex items-center gap-3 w-full hover:bg-amber-500 transition-colors text-gray-700 hover:text-white rounded-lg px-4 py-3"
+              >
+                <LogOut className="w-5 h-5" />
+                <span className="font-medium">Sign Out</span>
+              </Link>
+            </button>
+          </nav>
+        </div>
+
+        {/* Main Content */}
+        <div className="flex-1 flex flex-col lg:ml-0">
+          {/* Header */}
+          <header className="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
+            <div className="flex items-center justify-between">
+              {/* Mobile menu button */}
+              <button
+                onClick={toggleSidebar}
+                className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <Menu className="w-5 h-5 text-gray-600" />
+              </button>
+
+              {/* Search */}
+              <div className="flex-1 max-w-md lg:max-w-md ml-2 lg:ml-0">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                  <input
+                    type="text"
+                    placeholder="Search here..."
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  />
+                </div>
+              </div>
+
+              {/* Language Selector */}
+              <div className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200 transition-colors">
+                <span className="text-sm font-medium">Vie (vi)</span>
+                <ChevronDown className="w-4 h-4" />
+              </div>
+
+              {/* Notifications & Profile */}
+              <div className="flex items-center gap-4">
+                <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                  <Bell className="w-5 h-5 text-gray-600" />
+                </button>
+
+                <div className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer transition-colors">
+                  <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+                    <span className="text-white text-sm font-medium">M</span>
+                  </div>
+                  <div className="text-left">
+                    <p className="text-sm font-medium text-gray-900">Quoc Binh</p>
+                    <p className="text-xs text-gray-500">Admin</p>
+                  </div>
+                  <ChevronDown className="w-4 h-4 text-gray-400" />
+                </div>
+              </div>
+            </div>
+          </header>
+
+          {/* Page Content */}
+          <main className="flex-1 overflow-auto">{children}</main>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Sidebar;

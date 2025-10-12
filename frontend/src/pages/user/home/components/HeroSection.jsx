@@ -1,13 +1,12 @@
 import React from "react";
 import { Link } from "react-router";
 import { ChevronDown, Play, ArrowRight, Star } from "lucide-react";
-
 const HeroSection = () => {
   return (
     <section className="relative h-screen overflow-hidden">
       {/* Background image */}
       <img
-        src="https://img4.thuthuatphanmem.vn/uploads/2020/12/26/anh-noi-that-phong-khach_052105313.jpg"
+        src="src\assets\img\anh-noi-that-phong-khach_052105313.jpg"
         alt="Hero background"
         className="min-w-screen h-full object-cover"
       />
@@ -38,7 +37,10 @@ const HeroSection = () => {
               </button>
             </Link>
             <button className="px-6 py-3 rounded-lg border cursor-pointer border-white text-white text-lg font-medium flex items-center justify-center gap-2 hover:bg-white hover:text-amber-500 transition">
-              <a href="https://www.youtube.com/watch?v=Jvd7x0xuNdE" className="flex items-center gap-2">
+              <a
+                href="https://www.youtube.com/watch?v=Jvd7x0xuNdE"
+                className="flex items-center gap-2"
+              >
                 <Play className="w-4 h-4" />
                 Xem video
               </a>

@@ -1,5 +1,4 @@
 import React from "react";
-import TeamProfiles from "./components/TeamProfiles";
 import SupportPolicies from "./components/SupportPolicies";
 import FAQ from "./components/FAQ";
 import ShowroomLocations from "./components/ShowroomLocations";
@@ -28,7 +27,6 @@ const Contact = () => {
         <ShowroomLocations />
         <FAQ />
         <SupportPolicies />
-        <TeamProfiles />
       </main>
     </div>
   );

@@ -6,6 +6,11 @@ import Product from "./pages/user/product";
 import Login from "./pages/user/login";
 import Contact from "./pages/user/contact";
 import ScrollToTop from "./components/ScollToTop";
+import LayoutAdmin from "./pages/admin/Layout";
+import ProductManagement from "./pages/admin/product";
+import AdminHome from "./pages/admin/home";
+import Order from "./pages/admin/order";
+import ManagementPage from "./pages/admin/management";
 
 function App() {
   return (
@@ -21,7 +26,14 @@ function App() {
             <Route path="product-detail" element={<div>ProductDetail</div>} />
             <Route path="login" element={<Login />} />
           </Route>
+          <Route path="/admin" element={<LayoutAdmin />} >
+            <Route index element={<AdminHome />} />
+            <Route path="product" element={<ProductManagement />} />
+            <Route path="management" element={<ManagementPage />} />
+            <Route path="order" element={<Order/>} />
+          </Route>
         </Routes>
+
       </BrowserRouter>
     </>
   );

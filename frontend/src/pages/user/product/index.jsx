@@ -22,7 +22,7 @@ const Product = () => {
   const [currentPage, setCurrentPage] = useState(
     parseInt(searchParams?.get("page")) || 1
   );
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showQuickView, setShowQuickView] = useState(false);
   const [comparedProducts, setComparedProducts] = useState([]);
@@ -413,13 +413,9 @@ const Product = () => {
         {/* Hero Section */}
         <div className="bg-gradient-warm py-12 px-4">
           <div className="max-w-7xl mx-auto text-center">
-            <h1 className="font-playfair text-4xl lg:text-5xl font-bold text-text-primary mb-4">
+            <h1 className="font-playfair text-4xl lg:text-5xl font-bold text-text-primary lg:mb-10 mb-6">
               Khám Phá Bộ Sưu Tập Nội Thất
             </h1>
-            <p className="text-lg text-text-secondary mb-8 max-w-2xl mx-auto">
-              Tìm kiếm những món nội thất hoàn hảo để biến ngôi nhà của bạn
-              thành không gian sống lý tưởng
-            </p>
 
             {/* Search Bar */}
             <SearchBar
@@ -506,7 +502,7 @@ const Product = () => {
               <ProductGrid
                 products={paginatedProducts}
                 viewMode={viewMode}
-                loading={loading}
+                // loading={loading}
                 onAddToWishlist={handleAddToWishlist}
                 onAddToCart={handleAddToCart}
                 onQuickView={handleQuickView}
