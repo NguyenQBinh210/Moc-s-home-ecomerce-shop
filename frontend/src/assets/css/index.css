@@ -1,1 +1,6 @@
 @import "tailwindcss";
+.image {
+  background-image: url('https://th.bing.com/th/id/OIP.PUsBJ8UcVABNClN4bjivlgHaHa?w=161&h=180&c=7&r=0&o=7&cb=12&dpr=1.4&pid=1.7&rm=3');
+  background-size: cover;
+  background-position: center;
+}
