@@ -3,7 +3,15 @@ import DanhMuc from '../models/DanhMuc.js';
 // Lấy tất cả danh mục
 export const getAllCategories = async (req, res) => {
   try {
-    const { page = 1, limit = 10, search = '' } = req.query;
+    const { page = 1, limit = 10, search = "", all } = req.query;
+    
+    if (all === "true") {
+      const allCategories = await DanhMuc.find().sort({ ten_danh_muc: 1 });
+      return res.status(200).json({
+        success: true,
+        data: allCategories,
+      });
+    }
     
     const filter = {};
     if (search) {

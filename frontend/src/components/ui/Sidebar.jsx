@@ -29,8 +29,6 @@ const Sidebar = ({ children }) => {
     { icon: Package, label: "Products", path: "/admin/product" },
     { icon: FolderOpen, label: "Management", path: "/admin/management" },
     { icon: ShoppingBag, label: "Order", path: "/admin/order" },
-    { icon: BarChart3, label: "Sales Report", path: "/admin/sale" },
-    { icon: MessageSquare, label: "Messages", path: "/admin/messages" },
     { icon: Settings, label: "Settings", path: "/admin/settings" },
   ];
 
@@ -86,10 +84,27 @@ const Sidebar = ({ children }) => {
           <div className="p-6 border-b border-gray-200">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-gradient-to-r from-amber-500 to-amber-600 rounded-lg flex items-center justify-center">
-                  <div className="w-4 h-4 bg-white rounded-sm"></div>
+                <div className="flex items-center space-x-2 transition-warm hover:opacity-80">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="lucide lucide-store-icon lucide-store w-8 h-8 text-orange-600 flex items-center justify-center"
+                  >
+                    <path d="M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5" />
+                    <path d="M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244" />
+                    <path d="M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05" />
+                  </svg>
+                  <span className="font-playfair text-2xl font-bold text-primary">
+                    Mộc's HOME
+                  </span>
                 </div>
-                <span className="text-xl font-bold text-gray-900">Dabang</span>
               </div>
               {/* Close button for mobile */}
               <button
@@ -179,7 +194,9 @@ const Sidebar = ({ children }) => {
                     <span className="text-white text-sm font-medium">M</span>
                   </div>
                   <div className="text-left">
-                    <p className="text-sm font-medium text-gray-900">Quoc Binh</p>
+                    <p className="text-sm font-medium text-gray-900">
+                      Quoc Binh
+                    </p>
                     <p className="text-xs text-gray-500">Admin</p>
                   </div>
                   <ChevronDown className="w-4 h-4 text-gray-400" />

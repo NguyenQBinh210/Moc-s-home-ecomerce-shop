@@ -56,9 +56,6 @@ const Pagination = ({
           >
             <option value={5}>5 sản phẩm</option>
             <option value={10}>10 sản phẩm</option>
-            <option value={25}>25 sản phẩm</option>
-            <option value={50}>50 sản phẩm</option>
-            <option value={100}>100 sản phẩm</option>
           </select>
           <span className="text-sm text-gray-500">
             {startItem}-{endItem} trong tổng số {totalItems} sản phẩm

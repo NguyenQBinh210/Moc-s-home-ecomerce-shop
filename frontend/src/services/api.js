@@ -150,4 +150,28 @@ export const productsAPI = {
   }),
 };
 
+// Auth API
+export const authAPI = {
+  // Customer auth
+  register: (data) => apiCall('/auth/register', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  }),
+  
+  login: (data) => apiCall('/auth/login', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  }),
+  
+  // Admin auth
+  adminLogin: (data) => apiCall('/auth/admin/login', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  }),
+  
+  // Test token
+  testToken: () => apiCall('/auth/test'),
+};
+
 export default apiCall;
+

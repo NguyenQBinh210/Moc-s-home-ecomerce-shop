@@ -2,6 +2,8 @@ import express from "express";
 import products from "./routers/productsRouters.js";
 import categories from "./routers/categoriesRouters.js";
 import suppliers from "./routers/suppliersRouters.js";
+import authRouters from "./routers/authRouters.js";
+import auth from "./routers/authRouters.js";
 import { connectDB } from "./config/db.js";
 import dotenv from "dotenv";
 
@@ -31,6 +33,8 @@ app.use((req, res, next) => {
 connectDB();
 
 // Routes
+app.use("/api/users", authRouters);
+app.use("/auth", auth);
 app.use("/products", products);
 app.use("/categories", categories);
 app.use("/suppliers", suppliers);

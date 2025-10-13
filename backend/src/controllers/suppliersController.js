@@ -3,7 +3,17 @@ import NhaCungCap from '../models/NhaCungCap.js';
 // Lấy tất cả nhà cung cấp
 export const getAllSuppliers = async (req, res) => {
   try {
-    const { page = 1, limit = 10, search = '' } = req.query;
+    const { page = 1, limit = 10, search = "", all } = req.query;
+
+    if (all === "true") {
+      const allSuppliers = await NhaCungCap.find().sort({
+        ten_nha_cung_cap: 1,
+      });
+      return res.status(200).json({
+        success: true,
+        data: allSuppliers,
+      });
+    }
     
     const filter = {};
     if (search) {

@@ -1,46 +1,43 @@
-import SanPham from '../models/Products.js';
-import DanhMuc from '../models/DanhMuc.js';
-import NhaCungCap from '../models/NhaCungCap.js';
+import SanPham from "../models/Products.js";
+import cloudinary from "../config/cloudinary.js";
 
-// Lấy tất cả sản phẩm với filter và pagination
+const uploadToCloudinary = (fileBuffer) => {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { folder: "products" },
+      (error, result) => {
+        if (error) reject(error);
+        else resolve(result);
+      }
+    );
+    stream.end(fileBuffer);
+  });
+};
+
+const deleteFromCloudinary = (publicId) => {
+  return cloudinary.uploader.destroy(publicId);
+};
+
+const getPublicIdFromUrl = (url) => {
+  try {
+    const parts = url.split("/");
+    const publicIdWithExt = parts[parts.length - 1];
+    return `products/${publicIdWithExt.split(".")[0]}`;
+  } catch (e) {
+    return null;
+  }
+};
+
+// --- API CONTROLLERS ---
 export const getAllProducts = async (req, res) => {
   try {
-    const { 
-      page = 1, 
-      limit = 6, 
-      search = '', 
-      category = '', 
-      supplier = '',
-      minPrice = '',
-      maxPrice = '',
-      status = ''
-    } = req.query;
-
+    const { page = 1, limit = 5, search = '', category = '', supplier = '' } = req.query;
     const filter = {};
-    if (search) {
-      filter.ten_san_pham = { $regex: search, $options: 'i' };
-    }
-    
-    if (category) {
-      filter.ma_danh_muc = category;
-    }
-    
-    if (supplier) {
-      filter.ma_nha_cung_cap = supplier;
-    }
-    
-    if (minPrice || maxPrice) {
-      filter.gia = {};
-      if (minPrice) filter.gia.$gte = parseFloat(minPrice);
-      if (maxPrice) filter.gia.$lte = parseFloat(maxPrice);
-    }
-    
-    if (status) {
-      filter.trang_thai = status;
-    }
-
     const skip = (parseInt(page) - 1) * parseInt(limit);
     
+    // Đếm tổng số sản phẩm KHỚP VỚI BỘ LỌC
+    const total = await SanPham.countDocuments(filter); // <-- Dòng này quan trọng
+
     const products = await SanPham.find(filter)
       .populate('ma_danh_muc', 'ten_danh_muc')
       .populate('ma_nha_cung_cap', 'ten_nha_cung_cap')
@@ -48,59 +45,25 @@ export const getAllProducts = async (req, res) => {
       .skip(skip)
       .limit(parseInt(limit));
 
-    const total = await SanPham.countDocuments(filter);
-
     res.status(200).json({
       success: true,
       data: products,
       pagination: {
         currentPage: parseInt(page),
-        totalPages: Math.ceil(total / parseInt(limit)),
+        // Phép tính này PHẢI DÙNG `total` đã đếm ở trên
+        totalPages: Math.ceil(total / parseInt(limit)), // <-- Dòng này quan trọng
         totalItems: total,
         itemsPerPage: parseInt(limit)
       }
     });
   } catch (error) {
-    console.error("Error fetching products:", error);
-    res.status(500).json({ 
-      success: false,
-      message: "Lỗi server khi lấy danh sách sản phẩm" 
-    });
+    res.status(500).json({ success: false, message: "Lỗi server" });
   }
 };
 
-// Lấy sản phẩm theo ID
-export const getProductById = async (req, res) => {
-  try {
-    const { id } = req.params;
-    
-    const product = await SanPham.findById(id)
-      .populate('ma_danh_muc', 'ten_danh_muc')
-      .populate('ma_nha_cung_cap', 'ten_nha_cung_cap dia_chi so_dien_thoai');
-
-    if (!product) {
-      return res.status(404).json({
-        success: false,
-        message: "Không tìm thấy sản phẩm"
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      data: product
-    });
-  } catch (error) {
-    console.error("Error fetching product:", error);
-    res.status(500).json({ 
-      success: false,
-      message: "Lỗi server khi lấy thông tin sản phẩm" 
-    });
-  }
-};
-
-// Tạo sản phẩm mới
 export const createProduct = async (req, res) => {
   try {
+    // Chỉ lấy những trường có trong model mới
     const {
       ten_san_pham,
       mo_ta,
@@ -109,167 +72,96 @@ export const createProduct = async (req, res) => {
       trang_thai,
       ma_danh_muc,
       ma_nha_cung_cap,
-      hinh_anh,
-      _id
     } = req.body;
 
-    // Validation
-    if (!ten_san_pham || !gia || !so_luong) {
-      return res.status(400).json({
-        success: false,
-        message: "Tên sản phẩm, giá và số lượng là bắt buộc"
-      });
+    let imageUrls = [];
+    if (req.files && req.files.length > 0) {
+      const uploadPromises = req.files.map((file) =>
+        uploadToCloudinary(file.buffer)
+      );
+      const results = await Promise.all(uploadPromises);
+      imageUrls = results.map((result) => result.secure_url);
     }
 
-    // Kiểm tra danh mục tồn tại
-    if (ma_danh_muc) {
-      const category = await DanhMuc.findById(ma_danh_muc);
-      if (!category) {
-        return res.status(400).json({
-          success: false,
-          message: "Danh mục không tồn tại"
-        });
-      }
-    }
-
-    // Kiểm tra nhà cung cấp tồn tại
-    if (ma_nha_cung_cap) {
-      const supplier = await NhaCungCap.findById(ma_nha_cung_cap);
-      if (!supplier) {
-        return res.status(400).json({
-          success: false,
-          message: "Nhà cung cấp không tồn tại"
-        });
-      }
-    }
-
-    // Kiểm tra ID đã tồn tại (nếu có cung cấp ID thủ công)
-    if (_id) {
-      const existingId = await SanPham.findById(_id);
-      if (existingId) {
-        return res.status(400).json({
-          success: false,
-          message: "ID đã tồn tại"
-        });
-      }
-    }
-
-    // Tạo sản phẩm mới
     const newProduct = new SanPham({
       ten_san_pham,
-      mo_ta: mo_ta || '',
-      gia: parseFloat(gia),
-      so_luong: parseInt(so_luong),
-      trang_thai: trang_thai || 'còn hàng',
-      ma_danh_muc: ma_danh_muc || null,
-      ma_nha_cung_cap: ma_nha_cung_cap || null,
-      hinh_anh: hinh_anh || [],
-      ...(_id && { _id }) // Thêm ID thủ công nếu có
+      mo_ta,
+      gia,
+      so_luong,
+      trang_thai,
+      ma_danh_muc,
+      ma_nha_cung_cap,
+      hinh_anh: imageUrls,
     });
 
-    const savedProduct = await newProduct.save();
-    
-    // Populate để trả về thông tin đầy đủ
-    const populatedProduct = await SanPham.findById(savedProduct._id)
-      .populate('ma_danh_muc', 'ten_danh_muc')
-      .populate('ma_nha_cung_cap', 'ten_nha_cung_cap');
-
-    res.status(201).json({
-      success: true,
-      message: "Tạo sản phẩm thành công",
-      data: populatedProduct
-    });
+    await newProduct.save();
+    res.status(201).json({ success: true, data: newProduct });
   } catch (error) {
-    console.error("Error creating product:", error);
-    res.status(500).json({ 
-      success: false,
-      message: "Lỗi server khi tạo sản phẩm" 
-    });
+    res
+      .status(500)
+      .json({ success: false, message: "Lỗi server khi tạo sản phẩm" });
   }
 };
 
-// Cập nhật sản phẩm
 export const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const updateData = req.body;
+    // req.body sẽ chỉ chứa những trường đơn giản
+    const data = req.body;
 
-    const existingProduct = await SanPham.findById(id);
-    if (!existingProduct) {
-      return res.status(404).json({
-        success: false,
-        message: "Không tìm thấy sản phẩm"
-      });
+    let existingImages = data.existingImages
+      ? JSON.parse(data.existingImages)
+      : [];
+    let newImageUrls = [];
+    if (req.files && req.files.length > 0) {
+      const uploadPromises = req.files.map((file) =>
+        uploadToCloudinary(file.buffer)
+      );
+      const results = await Promise.all(uploadPromises);
+      newImageUrls = results.map((result) => result.secure_url);
     }
+    data.hinh_anh = [...existingImages, ...newImageUrls];
+    delete data.existingImages;
 
-    if (updateData.ma_danh_muc) {
-      const category = await DanhMuc.findById(updateData.ma_danh_muc);
-      if (!category) {
-        return res.status(400).json({
-          success: false,
-          message: "Danh mục không tồn tại"
-        });
-      }
-    }
-
-    if (updateData.ma_nha_cung_cap) {
-      const supplier = await NhaCungCap.findById(updateData.ma_nha_cung_cap);
-      if (!supplier) {
-        return res.status(400).json({
-          success: false,
-          message: "Nhà cung cấp không tồn tại"
-        });
-      }
-    }
-
-    if (updateData.gia) updateData.gia = parseFloat(updateData.gia);
-    if (updateData.so_luong) updateData.so_luong = parseInt(updateData.so_luong);
-
-    const updatedProduct = await SanPham.findByIdAndUpdate(
-      id,
-      { ...updateData, updated_at: new Date() },
-      { new: true, runValidators: true }
-    ).populate('ma_danh_muc', 'ten_danh_muc')
-     .populate('ma_nha_cung_cap', 'ten_nha_cung_cap');
-
-    res.status(200).json({
-      success: true,
-      message: "Cập nhật sản phẩm thành công",
-      data: updatedProduct
+    const updatedProduct = await SanPham.findByIdAndUpdate(id, data, {
+      new: true,
     });
+    if (!updatedProduct)
+      return res
+        .status(404)
+        .json({ success: false, message: "Không tìm thấy sản phẩm" });
+
+    res.status(200).json({ success: true, data: updatedProduct });
   } catch (error) {
-    console.error("Error updating product:", error);
-    res.status(500).json({ 
-      success: false,
-      message: "Lỗi server khi cập nhật sản phẩm" 
-    });
+    res
+      .status(500)
+      .json({ success: false, message: "Lỗi server khi cập nhật" });
   }
 };
 
-// Xóa sản phẩm
 export const deleteProduct = async (req, res) => {
+  // Hàm này không thay đổi
   try {
     const { id } = req.params;
-
     const product = await SanPham.findById(id);
-    if (!product) {
-      return res.status(404).json({
-        success: false,
-        message: "Không tìm thấy sản phẩm"
-      });
+    if (!product)
+      return res
+        .status(404)
+        .json({ success: false, message: "Không tìm thấy sản phẩm" });
+
+    if (product.hinh_anh && product.hinh_anh.length > 0) {
+      const deletePromises = product.hinh_anh
+        .map((url) => {
+          const publicId = getPublicIdFromUrl(url);
+          if (publicId) return deleteFromCloudinary(publicId);
+        })
+        .filter(Boolean);
+      await Promise.all(deletePromises);
     }
 
     await SanPham.findByIdAndDelete(id);
-
-    res.status(200).json({
-      success: true,
-      message: "Xóa sản phẩm thành công"
-    });
+    res.status(200).json({ success: true, message: "Xóa sản phẩm thành công" });
   } catch (error) {
-    console.error("Error deleting product:", error);
-    res.status(500).json({ 
-      success: false,
-      message: "Lỗi server khi xóa sản phẩm" 
-    });
+    res.status(500).json({ success: false, message: "Lỗi server khi xóa" });
   }
 };

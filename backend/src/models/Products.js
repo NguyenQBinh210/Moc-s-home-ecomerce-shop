@@ -9,7 +9,7 @@ const SanPhamSchema = new mongoose.Schema({
   created_at: { type: Date, default: Date.now },
   ma_danh_muc: { type: String, ref: "DanhMuc" },
   ma_nha_cung_cap: { type: String, ref: "NhaCungCap" },
-  hinh_anh: [{ type: String }], // mảng ảnh sản phẩm
+  hinh_anh: [{ type: String }], 
 });
 
 const SanPham = mongoose.model("SanPham", SanPhamSchema);

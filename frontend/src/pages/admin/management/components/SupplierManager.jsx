@@ -169,7 +169,7 @@ const SupplierManager = () => {
     loadSuppliers(page);
   };
 
-  // FIX: Hàm xử lý thay đổi số items per page
+  // Handle items per page change
   const handleItemsPerPageChange = (e) => {
     const newItemsPerPage = parseInt(e.target.value);
     loadSuppliersWithLimit(1, newItemsPerPage);
@@ -255,7 +255,9 @@ const SupplierManager = () => {
             className="w-64"
           />
           <Button
-            onClick={resetForm}
+            onClick={() => {
+              resetForm;
+            }}
             variant="outline"
             size="sm"
             className="text-white bg-green-600 hover:bg-green-700"
@@ -272,7 +274,21 @@ const SupplierManager = () => {
         </h3>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* THÊM: ID Field */}
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                ID (Tùy chọn)
+              </label>
+              <Input
+                name="_id"
+                value={formData._id}
+                onChange={handleInputChange}
+                placeholder="Để trống để tự động tạo"
+                disabled={editingSupplier}
+              />
+            </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Tên nhà cung cấp *
@@ -298,7 +314,7 @@ const SupplierManager = () => {
               />
             </div>
 
-            <div className="md:col-span-2">
+            <div className="">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Địa chỉ
               </label>

@@ -22,54 +22,44 @@ const FilterSidebar = ({
   });
 
   const categories = [
-    { id: "sofa", label: "Ghế Sofa", count: 156 },
-    { id: "chair", label: "Ghế Đơn", count: 89 },
-    { id: "table", label: "Bàn", count: 234 },
-    { id: "bed", label: "Giường", count: 78 },
-    { id: "wardrobe", label: "Tủ Quần Áo", count: 45 },
-    { id: "bookshelf", label: "Kệ Sách", count: 67 },
-    { id: "cabinet", label: "Tủ Trang Trí", count: 123 },
-    { id: "desk", label: "Bàn Làm Việc", count: 91 },
-  ];
-
-  const materials = [
-    { id: "wood", label: "Gỗ Tự Nhiên", count: 345 },
-    { id: "engineered-wood", label: "Gỗ Công Nghiệp", count: 234 },
-    { id: "metal", label: "Kim Loại", count: 156 },
-    { id: "fabric", label: "Vải", count: 189 },
-    { id: "leather", label: "Da", count: 78 },
-    { id: "plastic", label: "Nhựa", count: 45 },
-    { id: "glass", label: "Kính", count: 67 },
+    { id: "sofa", label: "Ghế Sofa" },
+    { id: "chair", label: "Ghế Đơn"},
+    { id: "table", label: "Bàn"},
+    { id: "bed", label: "Giường"},
+    { id: "wardrobe", label: "Tủ Quần Áo"},
+    { id: "bookshelf", label: "Kệ Sách"},
+    { id: "cabinet", label: "Tủ Trang Trí"},
+    { id: "desk", label: "Bàn Làm Việc" },
   ];
 
   const colors = [
-    { id: "brown", label: "Nâu", hex: "#8B4513", count: 234 },
-    { id: "white", label: "Trắng", hex: "#FFFFFF", count: 189 },
-    { id: "black", label: "Đen", hex: "#000000", count: 156 },
-    { id: "gray", label: "Xám", hex: "#808080", count: 145 },
-    { id: "beige", label: "Be", hex: "#F5F5DC", count: 123 },
-    { id: "blue", label: "Xanh Dương", hex: "#0066CC", count: 89 },
-    { id: "green", label: "Xanh Lá", count: 67 },
-    { id: "red", label: "Đỏ", hex: "#CC0000", count: 45 },
+    { id: "brown", label: "Nâu", hex: "#8B4513"},
+    { id: "white", label: "Trắng", hex: "#FFFFFF" },
+    { id: "black", label: "Đen", hex: "#000000" },
+    { id: "gray", label: "Xám", hex: "#808080" },
+    { id: "beige", label: "Be", hex: "#F5F5DC" },
+    { id: "blue", label: "Xanh Dương", hex: "#0066CC" },
+    { id: "green", label: "Xanh Lá" },
+    { id: "red", label: "Đỏ", hex: "#CC0000"},
   ];
 
   const rooms = [
-    { id: "living-room", label: "Phòng Khách", count: 345 },
-    { id: "bedroom", label: "Phòng Ngủ", count: 234 },
-    { id: "dining-room", label: "Phòng Ăn", count: 156 },
-    { id: "office", label: "Văn Phòng", count: 123 },
-    { id: "kitchen", label: "Nhà Bếp", count: 89 },
-    { id: "bathroom", label: "Phòng Tắm", count: 67 },
-    { id: "outdoor", label: "Ngoài Trời", count: 45 },
+    { id: "living-room", label: "Phòng Khách" },
+    { id: "bedroom", label: "Phòng Ngủ" },
+    { id: "dining-room", label: "Phòng Ăn" },
+    { id: "office", label: "Văn Phòng",},
+    { id: "kitchen", label: "Nhà Bếp" },
+    { id: "bathroom", label: "Phòng Tắm" },
+    { id: "outdoor", label: "Ngoài Trời" },
   ];
 
   const brands = [
-    { id: "furnicraft-premium", label: "FurniCraft Premium", count: 234 },
-    { id: "eco-living", label: "Eco Living", count: 189 },
-    { id: "modern-home", label: "Modern Home", count: 156 },
-    { id: "classic-wood", label: "Classic Wood", count: 123 },
-    { id: "urban-style", label: "Urban Style", count: 89 },
-    { id: "comfort-zone", label: "Comfort Zone", count: 67 },
+    { id: "furnicraft-premium", label: "FurniCraft Premium" },
+    { id: "eco-living", label: "Eco Living" },
+    { id: "modern-home", label: "Modern Home" },
+    { id: "classic-wood", label: "Classic Wood" },
+    { id: "urban-style", label: "Urban Style" },
+    { id: "comfort-zone", label: "Comfort Zone" },
   ];
 
   const toggleSection = (section) => {
@@ -166,9 +156,6 @@ const FilterSidebar = ({
                     onFilterChange("categories", newCategories);
                   }}
                 />
-                <span className="text-sm text-text-secondary">
-                  ({category?.count})
-                </span>
               </div>
             ))}
           </FilterSection>
@@ -196,65 +183,6 @@ const FilterSidebar = ({
             </div>
           </FilterSection>
 
-          {/* Material Filter */}
-          <FilterSection title="Chất Liệu" sectionKey="material">
-            {materials?.map((material) => (
-              <div
-                key={material?.id}
-                className="flex items-center justify-between"
-              >
-                <Checkbox
-                  label={material?.label}
-                  checked={filters?.materials?.includes(material?.id) || false}
-                  onChange={(e) => {
-                    const currentMaterials = filters?.materials || [];
-                    const newMaterials = e?.target?.checked
-                      ? [...currentMaterials, material?.id]
-                      : currentMaterials?.filter((id) => id !== material?.id);
-                    onFilterChange("materials", newMaterials);
-                  }}
-                />
-                <span className="text-sm text-text-secondary">
-                  ({material?.count})
-                </span>
-              </div>
-            ))}
-          </FilterSection>
-
-          {/* Color Filter */}
-          <FilterSection title="Màu Sắc" sectionKey="color">
-            <div className="grid grid-cols-2 gap-3">
-              {colors?.map((color) => (
-                <div key={color?.id} className="flex items-center space-x-2">
-                  <button
-                    onClick={() => {
-                      const currentColors = filters?.colors || [];
-                      const newColors = currentColors?.includes(color?.id)
-                        ? currentColors?.filter((id) => id !== color?.id)
-                        : [...currentColors, color?.id];
-                      onFilterChange("colors", newColors);
-                    }}
-                    className={`
-                      w-6 h-6 rounded-full border-2 flex-shrink-0
-                      ${
-                        filters?.colors?.includes(color?.id)
-                          ? "border-primary ring-2 ring-primary/20"
-                          : "border-border hover:border-primary/50"
-                      }
-                    `}
-                    style={{ backgroundColor: color?.hex }}
-                  />
-                  <span className="text-sm text-text-primary flex-1">
-                    {color?.label}
-                  </span>
-                  <span className="text-xs text-text-secondary">
-                    ({color?.count})
-                  </span>
-                </div>
-              ))}
-            </div>
-          </FilterSection>
-
           {/* Room Filter */}
           <FilterSection title="Phòng" sectionKey="room">
             {rooms?.map((room) => (
@@ -270,9 +198,6 @@ const FilterSidebar = ({
                     onFilterChange("rooms", newRooms);
                   }}
                 />
-                <span className="text-sm text-text-secondary">
-                  ({room?.count})
-                </span>
               </div>
             ))}
           </FilterSection>
@@ -295,9 +220,6 @@ const FilterSidebar = ({
                     onFilterChange("brands", newBrands);
                   }}
                 />
-                <span className="text-sm text-text-secondary">
-                  ({brand?.count})
-                </span>
               </div>
             ))}
           </FilterSection>

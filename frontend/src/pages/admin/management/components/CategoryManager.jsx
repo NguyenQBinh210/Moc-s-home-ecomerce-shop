@@ -1,43 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import { categoriesAPI } from '../../../../services/api';
-import Button from '../../../../components/ui/Button';
-import Input from '../../../../components/ui/Input';
-import DataTable from '../../../../components/ui/DataTable';
-import ConfirmationModal from '../../../../components/ui/ConfirmationModal';
-import { toast, ToastContainer } from 'react-toastify';
+import React, { useState, useEffect } from "react";
+import { categoriesAPI } from "../../../../services/api";
+import Button from "../../../../components/ui/Button";
+import Input from "../../../../components/ui/Input";
+import DataTable from "../../../../components/ui/DataTable";
+import ConfirmationModal from "../../../../components/ui/ConfirmationModal";
+import { toast, ToastContainer } from "react-toastify";
 
 const CategoryManager = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
   const [formData, setFormData] = useState({
-    _id: '',
-    ten_danh_muc: ''
+    _id: "",
+    ten_danh_muc: "",
   });
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState(null);
   const [pagination, setPagination] = useState({
     currentPage: 1,
     totalPages: 1,
     totalItems: 0,
-    itemsPerPage: 10
+    itemsPerPage: 10,
   });
 
   // Load categories
   const loadCategories = async (page = pagination.currentPage) => {
     setLoading(true);
     try {
-      const response = await categoriesAPI.getAll({ 
+      const response = await categoriesAPI.getAll({
         search: searchTerm,
         page: page,
-        limit: pagination.itemsPerPage
+        limit: pagination.itemsPerPage,
       });
       setCategories(response.data);
       setPagination(response.pagination);
     } catch (error) {
-      console.error('Error loading categories:', error);
-      toast.error('Lỗi khi tải danh sách danh mục');
+      console.error("Error loading categories:", error);
+      toast.error("Lỗi khi tải danh sách danh mục");
     } finally {
       setLoading(false);
     }
@@ -50,16 +50,16 @@ const CategoryManager = () => {
   // Handle form input change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!formData.ten_danh_muc.trim()) {
       toast.error("Tên danh mục không được để trống");
       return;
@@ -76,11 +76,11 @@ const CategoryManager = () => {
         await categoriesAPI.create(formData);
         toast.success("Tạo danh mục thành công");
       }
-      
+
       loadCategories();
       resetForm();
     } catch (error) {
-      console.error('Error saving category:', error);
+      console.error("Error saving category:", error);
       toast.error(error.message || "Lỗi khi lưu danh mục");
     } finally {
       setLoading(false);
@@ -92,7 +92,7 @@ const CategoryManager = () => {
     setEditingCategory(category);
     setFormData({
       _id: category._id,
-      ten_danh_muc: category.ten_danh_muc
+      ten_danh_muc: category.ten_danh_muc,
     });
   };
 
@@ -113,7 +113,7 @@ const CategoryManager = () => {
       setShowDeleteModal(false);
       setCategoryToDelete(null);
     } catch (error) {
-      console.error('Error deleting category:', error);
+      console.error("Error deleting category:", error);
       toast.error(error.message || "Lỗi khi xóa danh mục");
     } finally {
       setLoading(false);
@@ -128,8 +128,8 @@ const CategoryManager = () => {
   // Reset form
   const resetForm = () => {
     setFormData({
-      _id: '',
-      ten_danh_muc: ''
+      _id: "",
+      ten_danh_muc: "",
     });
     setEditingCategory(null);
   };
@@ -141,25 +141,25 @@ const CategoryManager = () => {
 
   const handleItemsPerPageChange = (e) => {
     const newItemsPerPage = parseInt(e.target.value);
-    setPagination(prev => ({ ...prev, itemsPerPage: newItemsPerPage }));
+    setPagination((prev) => ({ ...prev, itemsPerPage: newItemsPerPage }));
     loadCategories(1); // Reset về trang 1
   };
 
   // Table columns configuration
   const columns = [
     {
-      header: 'ID',
-      key: '_id',
-      className: 'font-mono text-gray-900'
+      header: "ID",
+      key: "_id",
+      className: "font-mono text-gray-900",
     },
     {
-      header: 'Tên danh mục',
-      key: 'ten_danh_muc',
-      className: 'text-gray-900'
+      header: "Tên danh mục",
+      key: "ten_danh_muc",
+      className: "text-gray-900",
     },
     {
-      header: 'Thao tác',
-      key: 'actions',
+      header: "Thao tác",
+      key: "actions",
       render: (category) => (
         <div className="space-x-2">
           <Button
@@ -179,8 +179,8 @@ const CategoryManager = () => {
             Xóa
           </Button>
         </div>
-      )
-    }
+      ),
+    },
   ];
 
   return (
@@ -224,10 +224,28 @@ const CategoryManager = () => {
       {/* Form */}
       <div className="bg-white rounded-lg shadow p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">
-          {editingCategory ? 'Chỉnh sửa danh mục' : 'Thêm danh mục mới'}
+          {editingCategory ? "Chỉnh sửa danh mục" : "Thêm danh mục mới"}
         </h3>
-        
-        <form onSubmit={handleSubmit} className="space-y-4">
+
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-4"
+        >
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1 z-50">
+              ID (Tùy chọn - để trống để hệ thống tự tạo)
+            </label>
+            <Input
+              name="_id"
+              value={formData._id}
+              onChange={handleInputChange}
+              placeholder="Nhập ID tùy chỉnh (VD: cat_001)"
+              disabled={editingCategory ? true : false}
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              {editingCategory ? "Không thể sửa ID khi chỉnh sửa danh mục" : ""}
+            </p>
+          </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Tên danh mục *
@@ -240,14 +258,18 @@ const CategoryManager = () => {
               required
             />
           </div>
-          
+
           <div className="flex space-x-4">
             <Button
               type="submit"
               disabled={loading}
               className="bg-blue-600 hover:bg-blue-700 text-white"
             >
-              {loading ? "Đang xử lý..." : editingCategory ? "Cập nhật" : "Tạo mới"}
+              {loading
+                ? "Đang xử lý..."
+                : editingCategory
+                ? "Cập nhật"
+                : "Tạo mới"}
             </Button>
             {editingCategory && (
               <Button type="button" onClick={resetForm} variant="outline">

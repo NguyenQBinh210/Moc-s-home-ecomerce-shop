@@ -196,62 +196,6 @@ const ProductActions = ({
         </div>
       </div>
 
-      {/* Quick Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
-        <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-blue-600 font-medium">Tổng sản phẩm</p>
-              <p className="text-2xl font-bold text-blue-900">{totalProducts}</p>
-            </div>
-            <div className="w-10 h-10 bg-blue-200 rounded-lg flex items-center justify-center">
-              <FileText className="w-5 h-5 text-blue-600" />
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-gradient-to-r from-green-50 to-green-100 rounded-lg p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-green-600 font-medium">Đang hoạt động</p>
-              <p className="text-2xl font-bold text-green-900">
-                {Math.floor(totalProducts * 0.8)}
-              </p>
-            </div>
-            <div className="w-10 h-10 bg-green-200 rounded-lg flex items-center justify-center">
-              <Eye className="w-5 h-5 text-green-600" />
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-lg p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-yellow-600 font-medium">Sắp hết hàng</p>
-              <p className="text-2xl font-bold text-yellow-900">
-                {Math.floor(totalProducts * 0.15)}
-              </p>
-            </div>
-            <div className="w-10 h-10 bg-yellow-200 rounded-lg flex items-center justify-center">
-              <BarChart3 className="w-5 h-5 text-yellow-600" />
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-gradient-to-r from-red-50 to-red-100 rounded-lg p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-red-600 font-medium">Hết hàng</p>
-              <p className="text-2xl font-bold text-red-900">
-                {Math.floor(totalProducts * 0.05)}
-              </p>
-            </div>
-            <div className="w-10 h-10 bg-red-200 rounded-lg flex items-center justify-center">
-              <Trash2 className="w-5 h-5 text-red-600" />
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* Bulk Actions Bar */}
       {selectedCount > 0 && (
