@@ -1,35 +1,9 @@
 import { toast, ToastContainer } from "react-toastify";
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router";
+import { useAuth } from "../../../context/AuthContext";
 
-// --- LOGIC CODE (KHÔNG THAY ĐỔI) ---
-const useAuth = () => ({
-  login: async (loginIdentifier, password) => {
-    const response = await fetch("http://localhost:3000/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        loginIdentifier: loginIdentifier,
-        mat_khau: password,
-      }),
-    });
 
-    const data = await response.json();
-
-    if (!response.ok || !data.success) {
-      throw new Error(data.message || "Đăng nhập thất bại");
-    }
-
-    localStorage.setItem("token", data.token);
-    localStorage.setItem("user", JSON.stringify(data.user));
-
-    return data;
-  },
-});
-
-// --- COMPONENT VỚI GIAO DIỆN ĐÃ ĐƯỢC CẬP NHẬT ---
 const Login = () => {
   const [loginIdentifier, setLoginIdentifier] = useState("");
   const [password, setPassword] = useState("");
@@ -42,17 +16,33 @@ const Login = () => {
     setError("");
 
     try {
-      const responseData = await login(loginIdentifier, password);
+      if (typeof loginIdentifier !== "string" || typeof password !== "string") {
+        throw new Error("Thông tin đăng nhập không hợp lệ.");
+      }
 
-      if (responseData && responseData.user) {
-        if (responseData.user.role === "admin") {
-          toast.success("Đăng nhập thành công với vai trò Admin!");
-          navigate("/admin");
-        } else {
-          toast.success("Đăng nhập thành công!");
-          navigate("/");
-        }
+      const response = await fetch("http://localhost:3000/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+
+        body: JSON.stringify({
+          loginIdentifier: loginIdentifier,
+          mat_khau: password,
+        }),
+      });
+
+      const responseData = await response.json();
+
+      if (!responseData.success) {
+        throw new Error(responseData.message || "Đăng nhập thất bại");
+      }
+
+      login(responseData.user, responseData.token);
+
+      if (responseData.user.role === "admin") {
+        toast.success("Đăng nhập thành công với vai trò Admin!");
+        navigate("/admin");
       } else {
+        toast.success("Đăng nhập thành công!");
         navigate("/");
       }
     } catch (err) {

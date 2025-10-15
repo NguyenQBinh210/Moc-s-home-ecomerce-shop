@@ -24,49 +24,6 @@ const ProductCard = ({
       ?.format(price)
       ?.replace("₫", "₫");
   };
-
-  const renderStars = (rating) => {
-    const stars = [];
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 !== 0;
-
-    for (let i = 0; i < fullStars; i++) {
-      stars?.push(
-        <Icon
-          key={i}
-          name="Star"
-          size={14}
-          className="text-warning fill-current"
-        />
-      );
-    }
-
-    if (hasHalfStar) {
-      stars?.push(
-        <Icon
-          key="half"
-          name="StarHalf"
-          size={14}
-          className="text-warning fill-current"
-        />
-      );
-    }
-
-    const emptyStars = 5 - Math.ceil(rating);
-    for (let i = 0; i < emptyStars; i++) {
-      stars?.push(
-        <Icon
-          key={`empty-${i}`}
-          name="Star"
-          size={14}
-          className="text-border"
-        />
-      );
-    }
-
-    return stars;
-  };
-
   const handleImageNavigation = (direction, e) => {
     e?.preventDefault();
     e?.stopPropagation();
@@ -90,25 +47,25 @@ const ProductCard = ({
 
   return (
     <div
-      className="group bg-card rounded-xl border border-border overflow-hidden hover-lift transition-warm"
+      className="group bg-card rounded-xl shadow-xl overflow-hidden hover-lift transition-warm hover:bg-amber-500 hover:text-white hover:scale-110"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Link to={`/product-detail?id=${product?.id}`} className="block">
+      <Link to={`/product-detail/${product?._id}`} className="block">
         {/* Image Container */}
         <div className="relative aspect-square overflow-hidden bg-surface">
           <Image
-            src={product?.images?.[currentImageIndex]}
-            alt={product?.name}
+            src={product?.hinh_anh?.[currentImageIndex]}
+            alt={product?.ten_san_pham}
             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
 
-          {/* Sale Badge */}
+          {/* Sale Badge
           {product?.isOnSale && (
             <div className="absolute top-3 left-3 bg-destructive text-destructive-foreground px-2 py-1 rounded-md text-xs font-medium">
               -{product?.discountPercentage}%
             </div>
-          )}
+          )} */}
 
           {/* New Badge */}
           {product?.isNew && (
@@ -118,7 +75,7 @@ const ProductCard = ({
           )}
 
           {/* Image Navigation */}
-          {product?.images?.length > 1 && isHovered && (
+          {product?.hinh_anh?.length > 1 && isHovered && (
             <>
               <button
                 onClick={(e) => handleImageNavigation("prev", e)}
@@ -144,9 +101,9 @@ const ProductCard = ({
           )}
 
           {/* Image Dots */}
-          {product?.images?.length > 1 && (
+          {product?.hinh_anh?.length > 1 && (
             <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-1">
-              {product?.images?.map((_, index) => (
+              {product?.hinh_anh?.map((_, index) => (
                 <button
                   key={index}
                   onClick={(e) => {
@@ -206,78 +163,39 @@ const ProductCard = ({
           </div>
         </div>
 
-        {/* Product Info */}
         <div className="p-4">
-          {/* Category & Brand */}
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs text-text-secondary uppercase tracking-wide">
-              {product?.category}
-            </span>
-            <span className="text-xs text-text-secondary">
-              {product?.brand}
-            </span>
-          </div>
-
           {/* Product Name */}
-          <h3 className="font-playfair text-lg font-semibold text-text-primary mb-2 line-clamp-2 group-hover:text-primary transition-colors">
-            {product?.name}
+          <h3 className="font-playfair text-[15px] font-semibold text-text-primary mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+            {product?.ten_san_pham}
           </h3>
-
-          {/* Rating & Reviews */}
-          <div className="flex items-center space-x-2 mb-3">
-            <div className="flex items-center space-x-1">
-              {renderStars(product?.rating)}
-            </div>
-            <span className="text-sm text-text-secondary">
-              ({product?.reviewCount})
-            </span>
-          </div>
 
           {/* Price */}
           <div className="flex items-center space-x-2 mb-4">
             <span className="text-xl font-bold text-primary">
-              {formatPrice(product?.price)}
+              {formatPrice(product?.gia)}
             </span>
-            {product?.originalPrice &&
-              product?.originalPrice > product?.price && (
-                <span className="text-sm text-text-secondary line-through">
-                  {formatPrice(product?.originalPrice)}
-                </span>
-              )}
-          </div>
-
-          {/* Material & Color */}
-          <div className="flex items-center justify-between text-sm text-text-secondary mb-4">
-            <span>{product?.material}</span>
-            <div className="flex items-center space-x-1">
-              <div
-                className="w-4 h-4 rounded-full border border-border"
-                style={{ backgroundColor: product?.color?.hex }}
-              />
-              <span>{product?.color?.name}</span>
-            </div>
           </div>
 
           {/* Stock Status */}
           <div className="flex items-center justify-between mb-4">
             <div
               className={`flex items-center space-x-1 text-sm ${
-                product?.stock > 10
+                product?.so_luong > 10
                   ? "text-success"
-                  : product?.stock > 0
+                  : product?.so_luong > 0
                   ? "text-warning"
                   : "text-destructive"
               }`}
             >
               <Icon
-                name={product?.stock > 0 ? "CheckCircle" : "XCircle"}
+                name={product?.so_luong > 0 ? "CheckCircle" : "XCircle"}
                 size={14}
               />
               <span>
-                {product?.stock > 10
+                {product?.so_luong > 10
                   ? "Còn hàng"
-                  : product?.stock > 0
-                  ? `Chỉ còn ${product?.stock}`
+                  : product?.so_luong > 0
+                  ? `Chỉ còn ${product?.so_luong}`
                   : "Hết hàng"}
               </span>
             </div>
@@ -299,7 +217,7 @@ const ProductCard = ({
           onClick={(e) => handleActionClick(() => onAddToCart(product), e)}
           iconName="ShoppingCart"
           iconPosition="left"
-          className="transition-all duration-200"
+          className="transition-all duration-200 shadow-2xl cursor-pointer hover:bg-amber-700"
         >
           {product?.stock === 0 ? "Hết Hàng" : "Thêm Vào Giỏ"}
         </Button>

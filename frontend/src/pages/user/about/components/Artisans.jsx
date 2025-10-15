@@ -11,7 +11,7 @@ const Artisans = () => {
       description:
         "Bậc thầy trong nghệ thuật chạm khắc và tạo hình gỗ, đã đào tạo hơn 50 thợ thủ công lành nghề.",
       image:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop",
+        "https://img.lovepik.com/free-png/20211106/lovepik-a-confident-and-successful-male-image-of-leisure-png-image_400344521_wh1200.png",
       skills: ["Chạm khắc gỗ", "Thiết kế cổ điển", "Đào tạo nghề"],
     },
     {
@@ -21,7 +21,7 @@ const Artisans = () => {
       description:
         "Chuyên gia về kỹ thuật bọc ghế và tạo đệm, mang đến sự thoải mái tối ưu cho người sử dụng.",
       image:
-        "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=300&h=300&fit=crop",
+        "https://tse1.mm.bing.net/th/id/OIF.CUqC9tsm2kG8WsgiE8z56Q?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
       skills: ["Bọc ghế sofa", "Thiết kế đệm", "Chọn vải cao cấp"],
     },
     {
@@ -31,7 +31,7 @@ const Artisans = () => {
       description:
         "Chuyên gia về các kỹ thuật sơn và hoàn thiện bề mặt, tạo nên những sản phẩm hoàn hảo về thẩm mỹ.",
       image:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop",
+        "https://thosonnhadep.net/wp-content/uploads/2016/03/th%E1%BB%A3-s%C6%A1n-h%C3%A0-n%E1%BB%99i.jpg",
       skills: ["Sơn PU cao cấp", "Hoàn thiện bề mặt", "Kiểm soát chất lượng"],
     },
   ];
@@ -96,41 +96,7 @@ const Artisans = () => {
           ))}
         </div>
 
-        {/* Craftsmanship Process */}
-        <div className="bg-muted rounded-2xl p-8 lg:p-12">
-          <div className="text-center mb-12">
-            <h3 className="font-playfair text-2xl lg:text-3xl font-semibold text-primary mb-4">
-              Quy trình chế tác
-            </h3>
-            <p className="text-text-secondary max-w-2xl mx-auto">
-              Mỗi sản phẩm trải qua 7 bước chế tác tỉ mỉ để đảm bảo chất lượng
-              hoàn hảo
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { step: "01", title: "Chọn gỗ", icon: "TreePine" },
-              { step: "02", title: "Thiết kế", icon: "PenTool" },
-              { step: "03", title: "Gia công", icon: "Hammer" },
-              { step: "04", title: "Hoàn thiện", icon: "Sparkles" },
-            ]?.map((process, index) => (
-              <div key={index} className="text-center">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Icon
-                    name={process.icon}
-                    size={24}
-                    color="var(--color-primary)"
-                  />
-                </div>
-                <div className="text-2xl font-bold text-primary mb-2">
-                  {process.step}
-                </div>
-                <div className="font-medium text-primary">{process.title}</div>
-              </div>
-            ))}
-          </div>
-        </div>
+       
       </div>
     </section>
   );

@@ -10,7 +10,7 @@ const FounderStory = () => {
             <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-warm-lg shadow-xl">
               <Image
                 src="src\assets\img\CEO.png"
-                alt="Người sáng lập FurniCraft"
+                alt="Người sáng lập Mộc's HOME"
                 className="w-full h-full object-cover"
               />
             </div>

@@ -70,7 +70,6 @@ const Button = React.forwardRef(
 
     const calculatedIconSize = iconSize || iconSizeMap?.[size] || 16;
 
-    // Loading spinner
     const LoadingSpinner = () => (
       <svg
         className="animate-spin -ml-1 mr-2 h-4 w-4"

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import {
   LayoutDashboard,
   Trophy,
@@ -17,12 +17,13 @@ import {
   X,
   FolderOpen,
 } from "lucide-react";
-
+import { useAdminAuth } from "../../context/AdminAuthContext";
 const Sidebar = ({ children }) => {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isLargeScreen, setIsLargeScreen] = useState(false);
-
+  const navigate = useNavigate();
+  const { admin, logout } = useAdminAuth();
   const menuItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/admin", active: true },
     { icon: Trophy, label: "Leaderboard", path: "/admin/leaderboard" },
@@ -58,7 +59,10 @@ const Sidebar = ({ children }) => {
       setSidebarOpen(false);
     }
   };
-
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Mobile Overlay */}
@@ -140,14 +144,12 @@ const Sidebar = ({ children }) => {
             })}
 
             {/* Sign Out */}
-            <button className="shadow-2xl w-full flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
-              <Link
-                to={"/"}
-                className="flex items-center gap-3 w-full hover:bg-amber-500 transition-colors text-gray-700 hover:text-white rounded-lg px-4 py-3"
-              >
-                <LogOut className="w-5 h-5" />
-                <span className="font-medium">Sign Out</span>
-              </Link>
+            <button
+              onClick={handleLogout}
+              className="w-full flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors"
+            >
+              <LogOut className="w-5 h-5" />
+              <span className="font-medium">Sign Out</span>
             </button>
           </nav>
         </div>
@@ -188,19 +190,24 @@ const Sidebar = ({ children }) => {
                 <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
                   <Bell className="w-5 h-5 text-gray-600" />
                 </button>
-
-                <div className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer transition-colors">
-                  <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
-                    <span className="text-white text-sm font-medium">M</span>
+                {admin ? (
+                  <div className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer transition-colors">
+                    <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+                      <span className="text-white text-sm font-medium">
+                        {admin.ten_hoc_ten?.charAt(0).toUpperCase() || "A"}
+                      </span>
+                    </div>
+                    <div className="text-left">
+                      <p className="text-sm font-medium text-gray-900">
+                        {admin.ten_hoc_ten || admin.ten_dang_nhap}
+                      </p>
+                      <p className="text-xs text-gray-500 capitalize">
+                        {admin.role}
+                      </p>
+                    </div>
+                    <ChevronDown className="w-4 h-4 text-gray-400" />
                   </div>
-                  <div className="text-left">
-                    <p className="text-sm font-medium text-gray-900">
-                      Quoc Binh
-                    </p>
-                    <p className="text-xs text-gray-500">Admin</p>
-                  </div>
-                  <ChevronDown className="w-4 h-4 text-gray-400" />
-                </div>
+                ) : null}
               </div>
             </div>
           </header>

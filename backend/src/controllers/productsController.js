@@ -28,20 +28,47 @@ const getPublicIdFromUrl = (url) => {
   }
 };
 
-// --- API CONTROLLERS ---
 export const getAllProducts = async (req, res) => {
   try {
-    const { page = 1, limit = 5, search = '', category = '', supplier = '' } = req.query;
+
+    const {
+      page = 1,
+      limit = 8,
+      search = "",
+      category = "",
+      supplier = "",
+      minPrice = "",
+      maxPrice = "",
+      sort = "created_at", 
+    } = req.query;
+
+
     const filter = {};
+    if (search) {
+      filter.ten_san_pham = { $regex: search, $options: "i" };
+    }
+
+
+    if (category) {
+      const categoryIds = category.split(",");
+      filter.ma_danh_muc = { $in: categoryIds };
+    }
+
+
+    if (supplier) {
+      const supplierIds = supplier.split(",");
+      filter.ma_nha_cung_cap = { $in: supplierIds };
+    }
+
+
     const skip = (parseInt(page) - 1) * parseInt(limit);
-    
-    // Đếm tổng số sản phẩm KHỚP VỚI BỘ LỌC
-    const total = await SanPham.countDocuments(filter); // <-- Dòng này quan trọng
+
+    const total = await SanPham.countDocuments(filter);
 
     const products = await SanPham.find(filter)
-      .populate('ma_danh_muc', 'ten_danh_muc')
-      .populate('ma_nha_cung_cap', 'ten_nha_cung_cap')
-      .sort({ created_at: -1 })
+      .populate("ma_danh_muc", "ten_danh_muc")
+      .populate("ma_nha_cung_cap", "ten_nha_cung_cap")
+      .sort({ [sort]: -1 }) 
       .skip(skip)
       .limit(parseInt(limit));
 
@@ -50,14 +77,39 @@ export const getAllProducts = async (req, res) => {
       data: products,
       pagination: {
         currentPage: parseInt(page),
-        // Phép tính này PHẢI DÙNG `total` đã đếm ở trên
-        totalPages: Math.ceil(total / parseInt(limit)), // <-- Dòng này quan trọng
+        totalPages: Math.ceil(total / parseInt(limit)),
         totalItems: total,
-        itemsPerPage: parseInt(limit)
-      }
+      },
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Lỗi server" });
+    console.error("Error fetching products:", error);
+    res.status(500).json({
+      success: false,
+      message: "Lỗi server khi lấy danh sách sản phẩm",
+    });
+  }
+};
+
+export const getProductById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await SanPham.findById(id)
+      .populate("ma_danh_muc", "ten_danh_muc")
+      .populate("ma_nha_cung_cap", "ten_nha_cung_cap");
+
+    if (!product) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Không tìm thấy sản phẩm" });
+    }
+    res.status(200).json({ success: true, data: product });
+  } catch (error) {
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Lỗi server khi lấy chi tiết sản phẩm",
+      });
   }
 };
 

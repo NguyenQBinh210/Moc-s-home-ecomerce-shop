@@ -1,11 +1,16 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router"; 
 import Icon from "../AppIcon";
 import Button from "./Button";
+import { useAuth } from "../../context/AuthContext"; 
+import { User, LogOut } from "lucide-react";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const { user, logout } = useAuth();
 
   const navigationItems = [
     { name: "Trang chủ", path: "/", icon: "Home" },
@@ -15,6 +20,12 @@ const Header = () => {
   ];
 
   const isActivePath = (path) => location?.pathname === path;
+
+  const handleLogout = () => {
+    logout();
+    closeMobileMenu();
+    navigate("/login");
+  };
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -84,7 +95,6 @@ const Header = () => {
             >
               Search
             </Button>
-
             <Button
               variant="ghost"
               size="sm"
@@ -94,11 +104,42 @@ const Header = () => {
             >
               Cart
             </Button>
-            <Link to="/login">
-              <Button variant="outline" size="sm">
-                Sign In
-              </Button>
-            </Link>
+
+            {/* LOGIC HIỂN THỊ ĐỘNG CHO USER */}
+            {user && user.role !== "admin" ? (
+              // Nếu là user đã đăng nhập
+              <div className="relative group">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-2"
+                >
+                  <User size={16} />
+                  <span>{user.ten_hoc_ten || user.ten_dang_nhap}</span>
+                </Button>
+                <div className="absolute right-0 w-48 bg-white rounded-md shadow-lg py-1 z-20 opacity-0 group-hover:opacity-100 transition-opacity invisible group-hover:visible">
+                  <Link
+                    to="/profile"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    Tài khoản của tôi
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                  >
+                    <LogOut size={16} />
+                    Đăng xuất
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <Link to="/login">
+                <Button variant="outline" size="sm">
+                  Sign In
+                </Button>
+              </Link>
+            )}
           </div>
 
           <Button
@@ -120,8 +161,8 @@ const Header = () => {
                   onClick={closeMobileMenu}
                   className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-warm font-medium ${
                     isActivePath(item?.path)
-                      ? "text-orange-600 bg-orange-500/10 after:absolute after:left-2 after:right-2 after:-bottom-1 after:h-0.5 after:rounded-full after:bg-orange-500 after:opacity-100 after:scale-x-100 after:transition-transform after:duration-300"
-                      : "text-neutral-600 hover:text-orange-600 hover:bg-orange-400/5 after:absolute after:left-2 after:right-2 after:-bottom-1 after:h-0.5 after:rounded-full after:bg-orange-500 after:opacity-0 after:scale-x-0 after:transition-all after:duration-300 hover:after:opacity-100 hover:after:scale-x-100"
+                      ? "text-orange-600 bg-orange-500/10"
+                      : "text-neutral-600 hover:text-orange-600 hover:bg-orange-400/5"
                   }`}
                 >
                   <Icon name={item?.icon} size={20} />
@@ -138,15 +179,27 @@ const Header = () => {
                   <Icon name="ShoppingCart" size={20} />
                   <span>Cart</span>
                 </button>
-                <Link
-                  to="/login"
-                  onClick={closeMobileMenu}
-                  className="block px-4 py-2"
-                >
-                  <Button variant="outline" size="sm" fullWidth>
-                    Sign In
-                  </Button>
-                </Link>
+
+                {/* LOGIC HIỂN THỊ ĐỘNG CHO MOBILE */}
+                {user && user.role !== "admin" ? (
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center space-x-3 px-4 py-3 w-full text-left rounded-lg transition-warm font-medium text-red-600 hover:text-red-600 hover:bg-red-400/5"
+                  >
+                    <LogOut size={20} />
+                    <span>Đăng xuất</span>
+                  </button>
+                ) : (
+                  <Link
+                    to="/login"
+                    onClick={closeMobileMenu}
+                    className="block px-4 py-2"
+                  >
+                    <Button variant="outline" size="sm" fullWidth>
+                      Sign In
+                    </Button>
+                  </Link>
+                )}
               </div>
             </nav>
           </div>

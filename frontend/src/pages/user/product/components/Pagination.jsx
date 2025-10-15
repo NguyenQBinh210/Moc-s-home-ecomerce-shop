@@ -96,12 +96,11 @@ const Pagination = ({
                 variant={currentPage === page ? "default" : "ghost"}
                 size="sm"
                 onClick={() => handlePageChange(page)}
-                className={`
-                  px-3 py-2 min-w-[40px]
+                className={`w-6 h-6 flex items-center justify-center rounded-full text-sm font-medium transition-colors
                   ${
                     currentPage === page
-                      ? "bg-primary text-primary-foreground"
-                      : "text-text-primary hover:bg-surface"
+                      ? "bg-orange-500 text-white shadow-md"
+                      : "text-text-primary hover:bg-gray-100" 
                   }
                 `}
               >

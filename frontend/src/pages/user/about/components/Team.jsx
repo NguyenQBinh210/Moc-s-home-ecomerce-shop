@@ -8,14 +8,14 @@ const Team = () => {
       name: "Nguyễn Quốc Bình",
       position: "Người sáng lập & CEO",
       description:
-        "Với hơn 15 năm kinh nghiệm trong ngành nội thất, anh Tuấn đã dẫn dắt FurniCraft trở thành thương hiệu hàng đầu.",
+        "Với hơn 15 năm kinh nghiệm trong ngành nội thất, anh Tuấn đã dẫn dắt Mộc's HOME trở thành thương hiệu hàng đầu.",
       image: "src/assets/img/CEO.png",
       expertise: [
         "Chiến lược kinh doanh",
         "Thiết kế sản phẩm",
         "Quản lý thương hiệu",
       ],
-      social: { linkedin: "#", email: "tuan@furnicraft.vn" },
+      social: { linkedin: "#", email: "tuan@Mộc's HOME.vn" },
     },
     {
       name: "Lê Thị Mai",
@@ -23,13 +23,13 @@ const Team = () => {
       description:
         "Chuyên gia thiết kế với bằng cấp quốc tế, đã tạo ra hơn 500 mẫu nội thất được yêu thích.",
       image:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop",
+        "https://tse4.mm.bing.net/th/id/OIF.wVEACDtaqpWDKK2Uio3TqQ?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
       expertise: [
         "Thiết kế nội thất",
         "Xu hướng màu sắc",
         "Trải nghiệm người dùng",
       ],
-      social: { linkedin: "#", email: "mai@furnicraft.vn" },
+      social: { linkedin: "#", email: "mai@Mộc's HOME.vn" },
     },
     {
       name: "Trần Văn Hùng",
@@ -43,7 +43,7 @@ const Team = () => {
         "Kiểm soát chất lượng",
         "Tối ưu hóa quy trình",
       ],
-      social: { linkedin: "#", email: "hung@furnicraft.vn" },
+      social: { linkedin: "#", email: "hung@Mộc's HOME.vn" },
     },
     {
       name: "Phạm Thị Lan",
@@ -53,20 +53,20 @@ const Team = () => {
       image:
         "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&fit=crop",
       expertise: ["Marketing số", "Xây dựng thương hiệu", "Quản lý cộng đồng"],
-      social: { linkedin: "#", email: "lan@furnicraft.vn" },
+      social: { linkedin: "#", email: "lan@Mộc's HOME.vn" },
     },
   ];
 
   return (
-    <section className="py-20 bg-muted">
+    <section className="py-6 bg-muted">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="font-playfair text-3xl lg:text-4xl font-bold text-primary mb-4">
             Đội ngũ lãnh đạo
           </h2>
           <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-            Những con người tài năng và đam mê đứng sau thành công của
-            FurniCraft
+            Những con người tài năng và đam mê đứng sau thành công của Mộc's
+            HOME
           </p>
         </div>
 

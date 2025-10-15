@@ -11,29 +11,29 @@ const About = () => {
     <>
       <>
         <title>
-          Về chúng tôi - FurniCraft | Câu chuyện thương hiệu nội thất bền vững
+          Về chúng tôi - Mộc's HOME | Câu chuyện thương hiệu nội thất bền vững
         </title>
         <meta
           name="description"
-          content="Khám phá câu chuyện của FurniCraft - thương hiệu nội thất hàng đầu Việt Nam với cam kết về chất lượng, bền vững và nghệ thuật chế tác tinh xảo."
+          content="Khám phá câu chuyện của Mộc's HOME - thương hiệu nội thất hàng đầu Việt Nam với cam kết về chất lượng, bền vững và nghệ thuật chế tác tinh xảo."
         />
         <meta
           name="keywords"
-          content="FurniCraft, nội thất, bền vững, chế tác, thiết kế, Việt Nam"
+          content="Mộc's HOME, nội thất, bền vững, chế tác, thiết kế, Việt Nam"
         />
-        <meta property="og:title" content="Về chúng tôi - FurniCraft" />
+        <meta property="og:title" content="Về chúng tôi - Mộc's HOME" />
         <meta
           property="og:description"
           content="Câu chuyện thương hiệu nội thất bền vững hàng đầu Việt Nam"
         />
         <meta property="og:type" content="website" />
       </>
-          <HeroSection />
-          <FounderStory />
-          <Values />
-          <Sustainability />
-          <Artisans />
-          <Team />
+      <HeroSection />
+      <FounderStory />
+      <Values />
+      <Sustainability />
+      <Artisans />
+      <Team />
     </>
   );
 };

@@ -58,7 +58,7 @@ const ProductGrid = ({
     <div className={gridClasses?.[viewMode]}>
       {products?.map((product) => (
         <ProductCard
-          key={product?.id}
+          key={product?._id}
           product={product}
           onAddToWishlist={onAddToWishlist}
           onAddToCart={onAddToCart}

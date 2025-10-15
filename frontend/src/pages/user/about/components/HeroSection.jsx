@@ -10,7 +10,7 @@ const HeroSection = () => {
             <div className="space-y-4">
               <h1 className="font-playfair text-4xl lg:text-6xl font-bold text-primary leading-tight">
                 Câu chuyện của
-                <span className="text-gradient-warm block">FurniCraft</span>
+                <span className="text-gradient-warm block">Mộc's HOME</span>
               </h1>
               <p className="text-xl text-text-secondary leading-relaxed">
                 Nơi nghệ thuật chế tác gặp gỡ cuộc sống hiện đại, tạo nên những
@@ -40,7 +40,7 @@ const HeroSection = () => {
             <div className="aspect-square rounded-2xl overflow-hidden shadow-warm-lg">
               <Image
                 src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=600&fit=crop"
-                alt="Xưởng chế tác nội thất FurniCraft"
+                alt="Xưởng chế tác nội thất Mộc's HOME"
                 className="w-full h-full object-cover"
               />
             </div>
