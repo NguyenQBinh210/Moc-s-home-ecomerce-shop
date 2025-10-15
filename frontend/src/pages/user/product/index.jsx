@@ -39,7 +39,7 @@ const Product = () => {
   const [currentPage, setCurrentPage] = useState(
     parseInt(searchParams.get("page")) || 1
   );
-  const [productsPerPage] = useState(8); 
+  const [productsPerPage] = useState(8);
   const [paginationInfo, setPaginationInfo] = useState({});
 
   const fetchProducts = useCallback(async () => {
@@ -68,11 +68,9 @@ const Product = () => {
     }
   }, [currentPage, productsPerPage, searchQuery, sortBy, filters]);
 
-
   useEffect(() => {
     fetchProducts();
   }, [fetchProducts]);
-
 
   useEffect(() => {
     const fetchFilterData = async () => {
@@ -92,7 +90,6 @@ const Product = () => {
     };
     fetchFilterData();
   }, []);
-
 
   useEffect(() => {
     const params = new URLSearchParams();

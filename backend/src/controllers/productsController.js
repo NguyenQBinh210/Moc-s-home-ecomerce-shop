@@ -30,45 +30,55 @@ const getPublicIdFromUrl = (url) => {
 
 export const getAllProducts = async (req, res) => {
   try {
-
     const {
       page = 1,
       limit = 8,
       search = "",
       category = "",
       supplier = "",
-      minPrice = "",
-      maxPrice = "",
-      sort = "created_at", 
+      sort = " newest",
     } = req.query;
-
 
     const filter = {};
     if (search) {
       filter.ten_san_pham = { $regex: search, $options: "i" };
     }
 
-
     if (category) {
       const categoryIds = category.split(",");
       filter.ma_danh_muc = { $in: categoryIds };
     }
 
-
     if (supplier) {
       const supplierIds = supplier.split(",");
       filter.ma_nha_cung_cap = { $in: supplierIds };
     }
-
-
+    let sortOption = {};
+    switch (sort) {
+      case "price-low-high":
+        sortOption = { gia: 1 };
+        break;
+      case "price-high-low":
+        sortOption = { gia: -1 };
+        break;
+      case "name-a-z":
+        sortOption = { ten_san_pham: 1 };
+        break;
+      case "name-z-a":
+        sortOption = { ten_san_pham: -1 };
+        break;
+      case "newest":
+      default: 
+        sortOption = { created_at: -1 };
+        break;
+    }
     const skip = (parseInt(page) - 1) * parseInt(limit);
-
     const total = await SanPham.countDocuments(filter);
 
     const products = await SanPham.find(filter)
       .populate("ma_danh_muc", "ten_danh_muc")
       .populate("ma_nha_cung_cap", "ten_nha_cung_cap")
-      .sort({ [sort]: -1 }) 
+      .sort(sortOption)
       .skip(skip)
       .limit(parseInt(limit));
 
@@ -104,12 +114,10 @@ export const getProductById = async (req, res) => {
     }
     res.status(200).json({ success: true, data: product });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Lỗi server khi lấy chi tiết sản phẩm",
-      });
+    res.status(500).json({
+      success: false,
+      message: "Lỗi server khi lấy chi tiết sản phẩm",
+    });
   }
 };
 
