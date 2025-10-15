@@ -82,7 +82,6 @@ const ProductDetail = () => {
     }).format(price);
   };
 
-  // --- GIAO DIỆN KHI ĐANG TẢI HOẶC LỖI ---
   if (loading)
     return (
       <div className="text-center py-40">Đang tải chi tiết sản phẩm...</div>
@@ -236,7 +235,6 @@ const ProductDetail = () => {
                     <p className="text-md font-semibold truncate">
                       {item.ten_san_pham}
                     </p>
-                    {/* SỬA LẠI: Bỏ phần giá gốc */}
                     <p className="text-orange-600 font-bold text-lg">
                       {formatPrice(item.gia)}
                     </p>

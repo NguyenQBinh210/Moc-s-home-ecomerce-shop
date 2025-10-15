@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useAdminAuth } from '../../../context/AdminAuthContext.jsx';
+import { useAuth } from "../../../context/AuthContext";
 import { useNavigate } from 'react-router';
 
 const AdminLogin = () => {
   const [ten_dang_nhap, setTenDangNhap] = useState('');
   const [mat_khau, setMatKhau] = useState('');
   const [error, setError] = useState('');
-  const { login } = useAdminAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {

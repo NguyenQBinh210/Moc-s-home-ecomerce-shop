@@ -17,13 +17,13 @@ import {
   X,
   FolderOpen,
 } from "lucide-react";
-import { useAdminAuth } from "../../context/AdminAuthContext";
+import { useAuth } from "../../context/AuthContext"; 
 const Sidebar = ({ children }) => {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isLargeScreen, setIsLargeScreen] = useState(false);
   const navigate = useNavigate();
-  const { admin, logout } = useAdminAuth();
+  const { admin, logout } = useAuth();
   const menuItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/admin", active: true },
     { icon: Trophy, label: "Leaderboard", path: "/admin/leaderboard" },

@@ -14,22 +14,15 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-
     try {
-      if (typeof loginIdentifier !== "string" || typeof password !== "string") {
-        throw new Error("Thông tin đăng nhập không hợp lệ.");
-      }
-
       const response = await fetch("http://localhost:3000/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-
         body: JSON.stringify({
           loginIdentifier: loginIdentifier,
           mat_khau: password,
         }),
       });
-
       const responseData = await response.json();
 
       if (!responseData.success) {
@@ -37,13 +30,12 @@ const Login = () => {
       }
 
       login(responseData.user, responseData.token);
-
       if (responseData.user.role === "admin") {
-        toast.success("Đăng nhập thành công với vai trò Admin!");
-        navigate("/admin");
+        toast.success(`Chào mừng Admin ${responseData.user.ten_hoc_ten}!`);
+        navigate("/admin"); 
       } else {
-        toast.success("Đăng nhập thành công!");
-        navigate("/");
+        toast.success(`Chào mừng bạn quay trở lại!`);
+        navigate("/"); 
       }
     } catch (err) {
       setError(err.message);
@@ -51,8 +43,8 @@ const Login = () => {
     }
   };
 
+
   return (
-    // Sử dụng min-h-screen để đảm bảo component chiếm toàn bộ chiều cao màn hình
     <div className="flex flex-col md:flex-row min-w-screen bg-gray-100">
       <ToastContainer
         position="top-right"
