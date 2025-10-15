@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router"; 
+import { Link, useLocation, useNavigate } from "react-router";
 import Icon from "../AppIcon";
 import Button from "./Button";
-import { useAuth } from "../../context/AuthContext"; 
+import { useAuth } from "../../context/AuthContext";
 import { User, LogOut } from "lucide-react";
 
 const Header = () => {
@@ -102,12 +102,10 @@ const Header = () => {
               iconPosition="left"
               className="text-text-secondary hover:text-primary"
             >
-              Cart
+              <Link to={"cart"}>Cart</Link>
             </Button>
 
-            {/* LOGIC HIỂN THỊ ĐỘNG CHO USER */}
             {user && user.role !== "admin" ? (
-              // Nếu là user đã đăng nhập
               <div className="relative group">
                 <Button
                   variant="outline"
@@ -175,10 +173,12 @@ const Header = () => {
                   <Icon name="Search" size={20} />
                   <span>Search</span>
                 </button>
-                <button className="flex items-center space-x-3 px-4 py-3 w-full text-left rounded-lg transition-warm font-medium text-text-secondary hover:text-primary hover:bg-primary/5">
-                  <Icon name="ShoppingCart" size={20} />
-                  <span>Cart</span>
-                </button>
+                <Link className="flex gap-3">
+                  <button className="flex items-center space-x-3 px-4 py-3 w-full text-left rounded-lg transition-warm font-medium text-text-secondary hover:text-primary hover:bg-primary/5">
+                    <Icon name="ShoppingCart" size={20} />
+                    <span>Cart</span>
+                  </button>
+                </Link>
 
                 {/* LOGIC HIỂN THỊ ĐỘNG CHO MOBILE */}
                 {user && user.role !== "admin" ? (

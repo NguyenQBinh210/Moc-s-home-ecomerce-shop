@@ -13,6 +13,7 @@ import AdminHome from "./pages/admin/home";
 import Order from "./pages/admin/order";
 import ManagementPage from "./pages/admin/management";
 import ProtectedRoute from "./context/ProtectedRoute";
+import Cart from "./pages/user/cart";
 function App() {
   return (
     <>
@@ -25,6 +26,7 @@ function App() {
           <Route path="product-detail/:productId" element={<ProductDetail />} />
           <Route path="contact" element={<Contact />} />
           <Route path="login" element={<Login />} />
+          <Route path="cart" element= {<Cart/>}/>
         </Route>
         <Route element={<ProtectedRoute requiredRole="admin" />}>
           <Route path="/admin" element={<LayoutAdmin />}>

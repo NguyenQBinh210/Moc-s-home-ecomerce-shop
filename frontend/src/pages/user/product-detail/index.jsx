@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router";
-import { toast } from "react-toastify";
 import { Star, Truck, RefreshCw } from "lucide-react";
-
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../../slice/cartSlice";
 const API_URL = "http://localhost:3000";
 
 function getRandomProducts(allProducts, currentId, count = 4) {
@@ -19,7 +19,7 @@ const ProductDetail = () => {
   const [error, setError] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [mainImage, setMainImage] = useState("");
-
+  const dispatch = useDispatch();
   useEffect(() => {
     const fetchProductData = async () => {
       if (!productId) return;
@@ -58,8 +58,6 @@ const ProductDetail = () => {
     };
     fetchProductData();
   }, [productId]);
-
-  // --- CÁC HÀM XỬ LÝ SỰ KIỆN ---
   const changeImage = (src) => setMainImage(src);
   const increaseQuantity = () => setQuantity((prev) => prev + 1);
   const decreaseQuantity = () =>
@@ -67,9 +65,8 @@ const ProductDetail = () => {
 
   const handleAddToCart = () => {
     if (product) {
-      toast.success(
-        `Đã thêm ${quantity} "${product.ten_san_pham}" vào giỏ hàng!`
-      );
+      const itemToAdd = { ...product, quantity: quantity };
+      dispatch(addToCart(itemToAdd));
       setQuantity(1);
     }
   };
@@ -148,7 +145,6 @@ const ProductDetail = () => {
               <span className="text-green-600 font-semibold">• Còn hàng</span>
             </div>
 
-            {/* SỬA LẠI: Bỏ phần giá gốc */}
             <div className="pt-2">
               <p className="font-bold text-4xl text-orange-600">
                 {formatPrice(product.gia)}

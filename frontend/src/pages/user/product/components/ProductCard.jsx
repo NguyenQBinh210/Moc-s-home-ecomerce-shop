@@ -3,14 +3,10 @@ import { Link } from "react-router";
 import Image from "../../../../components/AppImage";
 import Icon from "../../../../components/AppIcon";
 import Button from "../../../../components/ui/Button";
-
-const ProductCard = ({
-  product,
-  onAddToWishlist,
-  onAddToCart,
-  onQuickView,
-  onCompare,
-}) => {
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../../../slice/cartSlice";
+const ProductCard = ({ product, onQuickView, onCompare }) => {
+  const dispatch = useDispatch();
   const [isHovered, setIsHovered] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -44,7 +40,11 @@ const ProductCard = ({
     e?.stopPropagation();
     action();
   };
-
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatch(addToCart(product));
+};
   return (
     <div
       className="group bg-card rounded-xl shadow-xl overflow-hidden hover-lift transition-warm hover:bg-amber-500 hover:text-white hover:scale-110"
@@ -133,22 +133,6 @@ const ProductCard = ({
           `}
           >
             <button
-              onClick={(e) =>
-                handleActionClick(() => onAddToWishlist(product), e)
-              }
-              className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ${
-                product?.isWishlisted
-                  ? "bg-destructive text-destructive-foreground"
-                  : "bg-background/80 hover:bg-background text-text-primary"
-              }`}
-            >
-              <Icon
-                name="Heart"
-                size={16}
-                className={product?.isWishlisted ? "fill-current" : ""}
-              />
-            </button>
-            <button
               onClick={(e) => handleActionClick(() => onQuickView(product), e)}
               className="w-8 h-8 bg-background/80 hover:bg-background rounded-full flex items-center justify-center transition-all duration-200 text-text-primary"
             >
@@ -214,7 +198,7 @@ const ProductCard = ({
           variant="default"
           fullWidth
           disabled={product?.stock === 0}
-          onClick={(e) => handleActionClick(() => onAddToCart(product), e)}
+          onClick={handleAddToCart}
           iconName="ShoppingCart"
           iconPosition="left"
           className="transition-all duration-200 shadow-2xl cursor-pointer hover:bg-amber-700"
