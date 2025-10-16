@@ -1,4 +1,4 @@
-import React from "react";
+
 import { useSelector, useDispatch } from "react-redux";
 import {
   removeFromCart,
@@ -6,7 +6,7 @@ import {
   decreaseQuantity,
 } from "../../../slice/cartSlice";
 import { Link } from "react-router";
-
+import { ShoppingBasket, Sparkles } from "lucide-react";
 const Cart = () => {
   const dispatch = useDispatch();
   const items = useSelector((state) => state.cart.items);
@@ -41,13 +41,23 @@ const Cart = () => {
               </div>
               <div className="space-y-4">
                 {items.length === 0 ? (
-                  <div className="text-center py-16 bg-white rounded-lg shadow-sm border">
-                    <p className="text-lg text-gray-500">
-                      Giỏ hàng của bạn đang trống.
+                  <div className="text-center py-16 md:py-24 lg:min-w-[600px] bg-white rounded-lg shadow-sm border border-gray-200">
+                    <ShoppingBasket
+                      className="mx-auto h-24 w-24 text-gray-300"
+                      strokeWidth={1}
+                    />
+                    <h2 className="mt-6 text-2xl font-semibold text-gray-800">
+                      Giỏ hàng của bạn còn trống trơn 🛒
+                    </h2>
+                    <p className="mt-2 text-gray-500">
+                      Trông có vẻ như bạn chưa tìm thấy món đồ ưng ý nào.
+                      <br />
+                      Hãy bắt đầu khám phá ngay!
                     </p>
-                    <Link to="/product">
-                      <button className="mt-4 bg-orange-500 text-white px-6 py-2 rounded-md hover:bg-orange-600">
-                        Tiếp tục mua sắm
+                    <Link to="/product" className="mt-8 inline-block">
+                      <button className="flex items-center gap-3 bg-orange-600 text-white px-8 py-3 rounded-full font-semibold shadow-lg hover:bg-orange-700 transition-all duration-300 transform hover:scale-105">
+                        <Sparkles size={20} />
+                        <span>Khám phá sản phẩm</span>
                       </button>
                     </Link>
                   </div>

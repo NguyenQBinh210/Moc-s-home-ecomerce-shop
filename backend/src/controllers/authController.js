@@ -7,14 +7,8 @@ const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 
 export const register = async (req, res) => {
   try {
-    const {
-      ten_dang_nhap,
-      email,
-      mat_khau,
-      ten_hoc_ten,
-      so_dien_thoai,
-      dia_chi,
-    } = req.body;
+    const { ten_dang_nhap, email, mat_khau, ten_hoc_ten, so_dien_thoai } =
+      req.body;
 
     if (
       !ten_dang_nhap ||
@@ -25,23 +19,17 @@ export const register = async (req, res) => {
     ) {
       return res.status(400).json({
         success: false,
-        message: "Vui lòng điền đầy đủ các trường bắt buộc",
+        message: "Vui lòng điền đầy đủ các trường bắt buộc.",
       });
     }
 
-    const existingUsername = await User.findOne({ ten_dang_nhap });
-    if (existingUsername) {
+    const existingUser = await User.findOne({
+      $or: [{ ten_dang_nhap }, { email }],
+    });
+    if (existingUser) {
       return res.status(400).json({
         success: false,
-        message: "Tên đăng nhập đã được sử dụng",
-      });
-    }
-
-    const existingEmail = await User.findOne({ email });
-    if (existingEmail) {
-      return res.status(400).json({
-        success: false,
-        message: "Email đã được sử dụng",
+        message: "Tên đăng nhập hoặc email đã được sử dụng.",
       });
     }
 
@@ -51,35 +39,18 @@ export const register = async (req, res) => {
       mat_khau,
       ten_hoc_ten,
       so_dien_thoai,
-      dia_chi: dia_chi || "",
-      role: "user",
     });
 
     await user.save();
-
-    const token = jwt.sign(
-      { id: user._id, email: user.email, role: user.role },
-      JWT_SECRET,
-      { expiresIn: "7d" }
-    );
-
     res.status(201).json({
       success: true,
-      message: "Đăng ký thành công",
-      token,
-      user: {
-        id: user._id,
-        ten_dang_nhap: user.ten_dang_nhap,
-        email: user.email,
-        ten_hoc_ten: user.ten_hoc_ten,
-        role: user.role,
-      },
+      message: "Đăng ký tài khoản thành công! Vui lòng đăng nhập.",
     });
   } catch (error) {
-    console.error("Error registering user:", error);
+    console.error("Lỗi khi đăng ký:", error);
     res.status(500).json({
       success: false,
-      message: "Lỗi server khi đăng ký",
+      message: "Lỗi server khi đăng ký tài khoản.",
     });
   }
 };
@@ -160,7 +131,7 @@ export const verifyToken = (req, res, next) => {
   } catch (error) {
     res.status(401).json({
       success: false,
-      message: "Token không hợp lệ",
+      message: "Hãy đăng nhập để đặt hàng",
     });
   }
 };

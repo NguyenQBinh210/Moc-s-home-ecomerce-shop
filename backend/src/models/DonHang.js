@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
 
 const DonHangSchema = new mongoose.Schema({
-  ma_khach_hang: { type: String, ref: "KhachHang" },
-  ma_nhan_vien: { type: String, ref: "NhanVien" },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, // Thay thế ma_khach_hang và ma_nhan_vien
   ngay_dat: { type: Date, default: Date.now },
   trang_thai: { type: String, default: "đang xử lý" },
   dia_chi_giao_hang: String,
@@ -11,10 +10,14 @@ const DonHangSchema = new mongoose.Schema({
   chi_tiet: [
     {
       ma_san_pham: { type: String, ref: "SanPham" },
+      ten_san_pham: String,
       so_luong: Number,
+      gia: Number,
       thanh_tien: Number,
+      hinh_anh: String,
     },
   ],
 });
 
-export default mongoose.model("DonHang", DonHangSchema);
+const DonHang = mongoose.model("DonHang", DonHangSchema);
+export default DonHang

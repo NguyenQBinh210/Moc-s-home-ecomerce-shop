@@ -4,8 +4,11 @@ import categories from "./routers/categoriesRouters.js";
 import suppliers from "./routers/suppliersRouters.js";
 import authRouters from "./routers/authRouters.js";
 import auth from "./routers/authRouters.js";
+import orderRouter from "./routers/orderRouter.js";
+import authMiddleware from "./middleware/authMiddleware.js"; 
 import { connectDB } from "./config/db.js";
 import dotenv from "dotenv";
+import { createOrder } from "./controllers/orderController.js";
 
 dotenv.config();
 
@@ -15,7 +18,7 @@ const app = express();
 // Middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
-
+app.route("/").post(authMiddleware, createOrder);
 // CORS middleware
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -38,7 +41,7 @@ app.use("/auth", auth);
 app.use("/products", products);
 app.use("/categories", categories);
 app.use("/suppliers", suppliers);
-
+app.use("/api/orders", orderRouter);
 // Health check
 app.get("/health", (req, res) => {
   res.json({ 
