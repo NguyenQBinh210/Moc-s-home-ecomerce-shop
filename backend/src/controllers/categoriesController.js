@@ -78,7 +78,6 @@ export const createCategory = async (req, res) => {
   try {
     const { ten_danh_muc, _id } = req.body;
 
-    // Validation
     if (!ten_danh_muc) {
       return res.status(400).json({
         success: false,
@@ -86,7 +85,6 @@ export const createCategory = async (req, res) => {
       });
     }
 
-    // Kiểm tra danh mục đã tồn tại
     const existingCategory = await DanhMuc.findOne({ 
       ten_danh_muc: { $regex: new RegExp(`^${ten_danh_muc}$`, 'i') } 
     });
@@ -97,8 +95,6 @@ export const createCategory = async (req, res) => {
         message: "Danh mục đã tồn tại"
       });
     }
-
-    // Kiểm tra ID đã tồn tại (nếu có cung cấp ID thủ công)
     if (_id) {
       const existingId = await DanhMuc.findById(_id);
       if (existingId) {
@@ -111,7 +107,7 @@ export const createCategory = async (req, res) => {
 
     const newCategory = new DanhMuc({
       ten_danh_muc,
-      ...(_id && { _id }) // Thêm ID thủ công nếu có
+      ...(_id && { _id }) 
     });
 
     const savedCategory = await newCategory.save();
@@ -135,8 +131,6 @@ export const updateCategory = async (req, res) => {
   try {
     const { id } = req.params;
     const { ten_danh_muc } = req.body;
-
-    // Kiểm tra danh mục tồn tại
     const existingCategory = await DanhMuc.findById(id);
     if (!existingCategory) {
       return res.status(404).json({
@@ -145,7 +139,6 @@ export const updateCategory = async (req, res) => {
       });
     }
 
-    // Kiểm tra tên danh mục đã tồn tại (trừ danh mục hiện tại)
     if (ten_danh_muc) {
       const duplicateCategory = await DanhMuc.findOne({ 
         ten_danh_muc: { $regex: new RegExp(`^${ten_danh_muc}$`, 'i') },
@@ -185,7 +178,6 @@ export const deleteCategory = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Kiểm tra danh mục tồn tại
     const category = await DanhMuc.findById(id);
     if (!category) {
       return res.status(404).json({
@@ -194,7 +186,6 @@ export const deleteCategory = async (req, res) => {
       });
     }
 
-    // Kiểm tra có sản phẩm nào đang sử dụng danh mục này không
     const SanPham = (await import('../models/Products.js')).default;
     const productsUsingCategory = await SanPham.countDocuments({ ma_danh_muc: id });
 

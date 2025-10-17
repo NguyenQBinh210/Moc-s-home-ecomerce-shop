@@ -157,7 +157,6 @@ const ProductActions = ({
 
                   <button
                     onClick={() => {
-                      // Handle archive products
                       setShowMoreActions(false);
                     }}
                     className="flex items-center gap-3 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
@@ -168,7 +167,6 @@ const ProductActions = ({
 
                   <button
                     onClick={() => {
-                      // Handle share products
                       setShowMoreActions(false);
                     }}
                     className="flex items-center gap-3 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
@@ -181,7 +179,6 @@ const ProductActions = ({
 
                   <button
                     onClick={() => {
-                      // Handle settings
                       setShowMoreActions(false);
                     }}
                     className="flex items-center gap-3 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"

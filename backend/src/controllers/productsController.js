@@ -123,7 +123,6 @@ export const getProductById = async (req, res) => {
 
 export const createProduct = async (req, res) => {
   try {
-    // Chỉ lấy những trường có trong model mới
     const {
       ten_san_pham,
       mo_ta,
@@ -166,7 +165,6 @@ export const createProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    // req.body sẽ chỉ chứa những trường đơn giản
     const data = req.body;
 
     let existingImages = data.existingImages
@@ -199,8 +197,7 @@ export const updateProduct = async (req, res) => {
   }
 };
 
-export const deleteProduct = async (req, res) => {
-  // Hàm này không thay đổi
+export const deleteProduct = async (req, res) => { 
   try {
     const { id } = req.params;
     const product = await SanPham.findById(id);

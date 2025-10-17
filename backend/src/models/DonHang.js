@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const DonHangSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, // Thay thế ma_khach_hang và ma_nhan_vien
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, 
   ngay_dat: { type: Date, default: Date.now },
   trang_thai: { type: String, default: "đang xử lý" },
   dia_chi_giao_hang: String,

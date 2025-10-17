@@ -57,7 +57,6 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    // SỬA ĐỔI: Chấp nhận cả email hoặc tên đăng nhập
     const { loginIdentifier, mat_khau } = req.body;
 
     if (!loginIdentifier || !mat_khau) {
@@ -66,8 +65,6 @@ export const login = async (req, res) => {
         message: "Vui lòng nhập thông tin đăng nhập và mật khẩu",
       });
     }
-
-    // SỬA ĐỔI: Tìm người dùng bằng ten_dang_nhap hoặc email
     const user = await User.findOne({
       $or: [{ ten_dang_nhap: loginIdentifier }, { email: loginIdentifier }],
     });

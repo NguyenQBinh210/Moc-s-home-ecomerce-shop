@@ -12,7 +12,7 @@ const AdminHome = () => {
   const stats = [
     {
       title: 'Tổng sản phẩm',
-      value: '1,234',
+      value: '30',
       change: '+12%',
       changeType: 'positive',
       icon: Package,

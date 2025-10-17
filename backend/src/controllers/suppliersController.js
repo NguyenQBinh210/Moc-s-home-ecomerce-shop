@@ -91,7 +91,6 @@ export const createSupplier = async (req, res) => {
       });
     }
 
-    // Kiểm tra nhà cung cấp đã tồn tại
     const existingSupplier = await NhaCungCap.findOne({ 
       ten_nha_cung_cap: { $regex: new RegExp(`^${ten_nha_cung_cap}$`, 'i') } 
     });
@@ -103,7 +102,6 @@ export const createSupplier = async (req, res) => {
       });
     }
 
-    // Kiểm tra ID đã tồn tại (nếu có cung cấp ID thủ công)
     if (_id) {
       const existingId = await NhaCungCap.findById(_id);
       if (existingId) {
@@ -118,7 +116,7 @@ export const createSupplier = async (req, res) => {
       ten_nha_cung_cap,
       dia_chi: dia_chi || '',
       so_dien_thoai: so_dien_thoai || '',
-      ...(_id && { _id }) // Thêm ID thủ công nếu có
+      ...(_id && { _id })
     });
 
     const savedSupplier = await newSupplier.save();
@@ -143,7 +141,6 @@ export const updateSupplier = async (req, res) => {
     const { id } = req.params;
     const updateData = req.body;
 
-    // Kiểm tra nhà cung cấp tồn tại
     const existingSupplier = await NhaCungCap.findById(id);
     if (!existingSupplier) {
       return res.status(404).json({
@@ -152,7 +149,6 @@ export const updateSupplier = async (req, res) => {
       });
     }
 
-    // Kiểm tra tên nhà cung cấp đã tồn tại (trừ nhà cung cấp hiện tại)
     if (updateData.ten_nha_cung_cap) {
       const duplicateSupplier = await NhaCungCap.findOne({ 
         ten_nha_cung_cap: { $regex: new RegExp(`^${updateData.ten_nha_cung_cap}$`, 'i') },
@@ -192,7 +188,6 @@ export const deleteSupplier = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Kiểm tra nhà cung cấp tồn tại
     const supplier = await NhaCungCap.findById(id);
     if (!supplier) {
       return res.status(404).json({
@@ -201,7 +196,6 @@ export const deleteSupplier = async (req, res) => {
       });
     }
 
-    // Kiểm tra có sản phẩm nào đang sử dụng nhà cung cấp này không
     const SanPham = (await import('../models/Products.js')).default;
     const productsUsingSupplier = await SanPham.countDocuments({ ma_nha_cung_cap: id });
 

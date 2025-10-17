@@ -79,7 +79,7 @@ const Checkout = () => {
 
       if (data.success) {
         toast("Đặt hàng thành công!");
-        clearCart();
+        // clearCart();
         navigate("/product", { state: { order: data.data } });
       } else {
         setError(data.message || "Có lỗi xảy ra khi đặt hàng");

@@ -1,6 +1,4 @@
 const API_BASE_URL =  'http://localhost:3000';
-// process.env.REACT_APP_API_URL ||
-// Generic API call function
 const apiCall = async (endpoint, options = {}) => {
   const url = `${API_BASE_URL}${endpoint}`;
   

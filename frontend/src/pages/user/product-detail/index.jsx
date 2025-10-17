@@ -88,7 +88,6 @@ const ProductDetail = () => {
   if (!product)
     return <div className="text-center py-40">Không tìm thấy sản phẩm.</div>;
 
-  // --- GIAO DIỆN CHÍNH ---
   return (
     <section className="mb-16 lg:mb-20 animate-fade-in pt-16">
       <div className="max-w-7xl mx-auto px-4 lg:px-8 mt-8 md:my-10 lg:my-14">

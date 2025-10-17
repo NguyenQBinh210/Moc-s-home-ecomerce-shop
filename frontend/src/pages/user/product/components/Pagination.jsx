@@ -42,7 +42,6 @@ const Pagination = ({
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages && page !== currentPage) {
       onPageChange(page);
-      // Scroll to top of product grid
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
