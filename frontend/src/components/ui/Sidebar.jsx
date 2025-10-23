@@ -16,6 +16,7 @@ import {
   Menu,
   X,
   FolderOpen,
+  User2,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext"; 
 const Sidebar = ({ children }) => {
@@ -26,14 +27,13 @@ const Sidebar = ({ children }) => {
   const { admin, logout } = useAuth();
   const menuItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/admin", active: true },
-    { icon: Trophy, label: "Leaderboard", path: "/admin/leaderboard" },
     { icon: Package, label: "Products", path: "/admin/product" },
     { icon: FolderOpen, label: "Management", path: "/admin/management" },
     { icon: ShoppingBag, label: "Order", path: "/admin/order" },
-    { icon: Settings, label: "Settings", path: "/admin/settings" },
+    { icon: User2, label: "Users", path: "/admin/users" },
+    { icon: Settings, label: "Settings", path: "/admin/setting" },
   ];
 
-  // Handle responsive behavior
   useEffect(() => {
     const checkScreenSize = () => {
       const large = window.innerWidth >= 1024;

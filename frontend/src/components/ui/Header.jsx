@@ -117,7 +117,7 @@ const Header = () => {
                 </Button>
                 <div className="absolute right-0 w-48 bg-white rounded-md shadow-lg py-1 z-20 opacity-0 group-hover:opacity-100 transition-opacity invisible group-hover:visible">
                   <Link
-                    to="/profile"
+                    to="/account"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   >
                     Tài khoản của tôi

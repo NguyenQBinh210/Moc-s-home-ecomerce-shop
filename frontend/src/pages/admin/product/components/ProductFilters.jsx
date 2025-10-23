@@ -3,13 +3,7 @@ import {
   Search, 
   Filter, 
   X, 
-  ChevronDown,
-  Package,
-  DollarSign,
-  Tag,
-  Calendar,
-  TrendingUp,
-  TrendingDown
+  ChevronDown
 } from 'lucide-react';
 
 const ProductFilters = ({ 
@@ -258,54 +252,6 @@ const ProductFilters = ({
         </div>
       )}
 
-      {/* Sort Options */}
-      <div className="border-t border-gray-200 pt-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <span className="text-sm font-medium text-gray-700">Sắp xếp theo:</span>
-            
-            <div className="flex items-center gap-2">
-              {[
-                { key: 'name', label: 'Tên sản phẩm', icon: Package },
-                { key: 'price', label: 'Giá', icon: DollarSign },
-                { key: 'category', label: 'Danh mục', icon: Tag },
-                { key: 'createdAt', label: 'Ngày tạo', icon: Calendar },
-                { key: 'stock', label: 'Tồn kho', icon: Package }
-              ].map(({ key, label, icon: Icon }) => (
-                <button
-                  key={key}
-                  onClick={() => handleSortChange(key)}
-                  className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm transition-colors ${
-                    sortBy === key
-                      ? 'bg-amber-100 text-amber-700 border border-amber-200'
-                      : 'text-gray-600 hover:bg-gray-100'
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  {label}
-                  {sortBy === key && (
-                    sortOrder === 'asc' ? 
-                      <TrendingUp className="w-3 h-3" /> : 
-                      <TrendingDown className="w-3 h-3" />
-                  )}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 text-sm text-gray-500">
-            <span>Hiển thị:</span>
-            <select className="px-2 py-1 border border-gray-300 rounded text-sm">
-              <option value="10">10 sản phẩm</option>
-              <option value="25">25 sản phẩm</option>
-              <option value="50">50 sản phẩm</option>
-              <option value="100">100 sản phẩm</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      {/* Active Filters Display */}
       {activeFiltersCount > 0 && (
         <div className="border-t border-gray-200 pt-4 mt-4">
           <div className="flex items-center gap-2 flex-wrap">

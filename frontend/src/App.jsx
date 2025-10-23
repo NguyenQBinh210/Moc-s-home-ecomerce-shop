@@ -10,7 +10,6 @@ import LayoutAdmin from "./pages/admin/Layout";
 import ProductManagement from "./pages/admin/product";
 import ProductDetail from "./pages/user/product-detail";
 import AdminHome from "./pages/admin/home";
-import Order from "./pages/admin/order";
 import ManagementPage from "./pages/admin/management";
 import ProtectedRoute from "./context/ProtectedRoute";
 import Cart from "./pages/user/cart";
@@ -19,6 +18,10 @@ import Register from "./pages/user/login/Register";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "./slice/authSlice";
+import UserManagementPage from "./pages/admin/users";
+import OrderManagementPage from "./pages/admin/order";
+import Setting from "./pages/admin/setting";
+import AccountPage from "./pages/user/login/AccountPage";
 function App() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
@@ -49,6 +52,7 @@ function App() {
           <Route path="contact" element={<Contact />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="account" element={<AccountPage />} />
           <Route path="cart" element={<Cart />} />
           <Route path="checkout" element={<Checkout />} />
         </Route>
@@ -57,7 +61,9 @@ function App() {
             <Route index element={<AdminHome />} />
             <Route path="product" element={<ProductManagement />} />
             <Route path="management" element={<ManagementPage />} />
-            <Route path="order" element={<Order />} />
+            <Route path="users" element={<UserManagementPage />} />
+            <Route path="order" element={<OrderManagementPage />} />
+            <Route path="setting" element={<Setting />} />
           </Route>
         </Route>
       </Routes>

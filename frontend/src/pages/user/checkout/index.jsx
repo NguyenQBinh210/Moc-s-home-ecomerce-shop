@@ -18,14 +18,19 @@ const Checkout = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [qrUrl, setQrUrl] = useState("");
+
+  const bankId = "BIDV";
+  const accountNo = "2171082709";
+  const accountName = "Nguyen Quoc Binh";
 
   const calculateItemSubtotal = (item) => item.gia * item.quantity;
   const subtotal = items.reduce(
     (sum, item) => sum + calculateItemSubtotal(item),
     0
   );
-  const shippingLabel = "Miễn phí";
   const total = subtotal;
+  const shippingLabel = "Miễn phí";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -62,27 +67,35 @@ const Checkout = () => {
         ${formData.ghi_chu ? "Ghi chú: " + formData.ghi_chu : ""}
       `.trim();
 
-      const response = await fetch("http://localhost:3000/api/orders", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({
-          dia_chi_giao_hang,
-          ghi_chu,
-          items: items,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        toast("Đặt hàng thành công!");
-        // clearCart();
-        navigate("/product", { state: { order: data.data } });
+      // Nếu chọn chuyển khoản ngân hàng → sinh mã QR
+      if (formData.phuong_thuc_thanh_toan === "bank") {
+        const description = `Thanh toan don hang ${Date.now()}`;
+        const qr = `https://img.vietqr.io/image/${bankId}-${accountNo}-compact2.png?amount=${total}&addInfo=${encodeURIComponent(
+          description
+        )}`;
+        setQrUrl(qr);
+        toast("Vui lòng quét mã QR để thanh toán!");
       } else {
-        setError(data.message || "Có lỗi xảy ra khi đặt hàng");
+        const response = await fetch("http://localhost:3000/api/orders", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({
+            dia_chi_giao_hang,
+            ghi_chu,
+            items: items,
+          }),
+        });
+
+        const data = await response.json();
+        if (data.success) {
+          toast("Đặt hàng thành công!");
+          navigate("/product", { state: { order: data.data } });
+        } else {
+          setError(data.message || "Có lỗi xảy ra khi đặt hàng");
+        }
       }
     } catch (err) {
       console.error("Lỗi khi đặt hàng:", err);
@@ -217,48 +230,47 @@ const Checkout = () => {
               Tóm tắt đơn hàng
             </h2>
             <div className="space-y-4">
-              <div className="space-y-4">
-                {items.map((item) => (
-                  <div
-                    key={item._id}
-                    className="flex justify-between items-center"
-                  >
-                    <span className="flex items-center gap-4">
-                      <img
-                        src={item.hinh_anh?.[0]}
-                        alt={item.ten_san_pham}
-                        className="w-14 h-14 object-contain rounded-md border"
-                      />
-                      <div className="flex flex-col">
-                        <span className="font-medium">{item.ten_san_pham}</span>
-                        <span className="text-sm text-gray-500">
-                          x{item.quantity}
-                        </span>
-                      </div>
-                    </span>
-                    <span>
-                      {calculateItemSubtotal(item).toLocaleString("vi-VN")} đ
-                    </span>
-                  </div>
-                ))}
-                <hr className="my-4" />
-                <div className="flex justify-between">
-                  <span>Tạm tính:</span>
-                  <span>{subtotal.toLocaleString("vi-VN")} đ</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Phí vận chuyển:</span>
-                  <span>{shippingLabel}</span>
-                </div>
-                <hr className="my-4" />
-                <div className="flex justify-between font-bold">
-                  <span>Tổng cộng:</span>
-                  <span className="text-orange-600">
-                    {total.toLocaleString("vi-VN")} đ
+              {items.map((item) => (
+                <div
+                  key={item._id}
+                  className="flex justify-between items-center"
+                >
+                  <span className="flex items-center gap-4">
+                    <img
+                      src={item.hinh_anh?.[0]}
+                      alt={item.ten_san_pham}
+                      className="w-14 h-14 object-contain rounded-md border"
+                    />
+                    <div className="flex flex-col">
+                      <span className="font-medium">{item.ten_san_pham}</span>
+                      <span className="text-sm text-gray-500">
+                        x{item.quantity}
+                      </span>
+                    </div>
+                  </span>
+                  <span>
+                    {calculateItemSubtotal(item).toLocaleString("vi-VN")} đ
                   </span>
                 </div>
+              ))}
+              <hr className="my-4" />
+              <div className="flex justify-between">
+                <span>Tạm tính:</span>
+                <span>{subtotal.toLocaleString("vi-VN")} đ</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Phí vận chuyển:</span>
+                <span>{shippingLabel}</span>
+              </div>
+              <hr className="my-4" />
+              <div className="flex justify-between font-bold">
+                <span>Tổng cộng:</span>
+                <span className="text-orange-600">
+                  {total.toLocaleString("vi-VN")} đ
+                </span>
               </div>
             </div>
+
             <div className="space-y-6 mt-8">
               <div className="space-y-4">
                 <div className="flex items-center gap-2">
@@ -288,6 +300,7 @@ const Checkout = () => {
                   </label>
                 </div>
               </div>
+
               <button
                 type="submit"
                 onClick={handleSubmit}
@@ -296,6 +309,83 @@ const Checkout = () => {
               >
                 {loading ? "Đang xử lý..." : "Đặt hàng"}
               </button>
+
+              {qrUrl && (
+                <div className="text-center mt-6">
+                  <p className="font-medium mb-2 text-gray-700">
+                    Quét mã để thanh toán:
+                  </p>
+                  <img
+                    src={qrUrl}
+                    alt="QR Payment"
+                    className="mx-auto w-60 h-60 border rounded-lg shadow-sm"
+                  />
+                  <p className="mt-2 text-sm text-gray-500">
+                    Chủ tài khoản: {accountName} <br />
+                    Số tài khoản: {accountNo} ({bankId})
+                  </p>
+
+                  {/* Nút tôi đã thanh toán */}
+                  <button
+                    onClick={async () => {
+                      try {
+                        setLoading(true);
+                        const dia_chi_giao_hang = `${formData.dia_chi}${
+                          formData.toa_nha ? ", " + formData.toa_nha : ""
+                        }, ${formData.tinh_thanh}`;
+
+                        const ghi_chu = `
+                              Số điện thoại: ${formData.so_dien_thoai}
+                              Email: ${formData.email}
+                              Phương thức thanh toán: Chuyển khoản ngân hàng
+                              ${formData.ghi_chu ? "Ghi chú: " + formData.ghi_chu : ""}
+                            `.trim();
+
+                        const response = await fetch(
+                          "http://localhost:3000/api/orders",
+                          {
+                            method: "POST",
+                            headers: {
+                              "Content-Type": "application/json",
+                              Authorization: `Bearer ${localStorage.getItem(
+                                "token"
+                              )}`,
+                            },
+                            body: JSON.stringify({
+                              dia_chi_giao_hang,
+                              ghi_chu,
+                              items,
+                              tong_tien: total,
+                            }),
+                          }
+                        );
+
+                        const data = await response.json();
+
+                        if (data.success) {
+                          toast("Đặt hàng thành công!");
+                          navigate("/product", { state: { order: data.data } });
+                        } else {
+                          toast.error(
+                            data.message || "Có lỗi xảy ra khi lưu đơn hàng!"
+                          );
+                        }
+                      } catch (err) {
+                        console.error("Lỗi khi lưu đơn hàng:", err);
+                        toast.error(
+                          "Không thể kết nối đến server. Vui lòng thử lại!"
+                        );
+                      } finally {
+                        setLoading(false);
+                      }
+                    }}
+                    disabled={loading}
+                    className="mt-4 bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition disabled:bg-gray-400"
+                  >
+                    {loading ? "Đang xác nhận..." : "Tôi đã thanh toán"}
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>

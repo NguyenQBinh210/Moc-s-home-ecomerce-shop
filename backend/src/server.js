@@ -9,7 +9,7 @@ import authMiddleware from "./middleware/authMiddleware.js";
 import { connectDB } from "./config/db.js";
 import dotenv from "dotenv";
 import { createOrder } from "./controllers/orderController.js";
-
+import userRouter from "./routers/userRouter.js";
 dotenv.config();
 
 const PORT = process.env.PORT || 3000;
@@ -36,8 +36,9 @@ app.use((req, res, next) => {
 connectDB();
 
 // Routes
-app.use("/api/users", authRouters);
+app.use("/api/auth", authRouters);
 app.use("/auth", auth);
+app.use("/api/users", userRouter);
 app.use("/products", products);
 app.use("/categories", categories);
 app.use("/suppliers", suppliers);

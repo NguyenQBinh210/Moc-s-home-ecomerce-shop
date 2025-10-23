@@ -20,7 +20,6 @@ const ProductActions = ({
   onAddProduct, 
   onBulkDelete, 
   onExport, 
-  onImport,
   onRefresh,
   selectedCount = 0,
   totalProducts = 0,
@@ -31,10 +30,6 @@ const ProductActions = ({
 
   const handleExport = () => {
     onExport();
-  };
-
-  const handleImport = () => {
-    onImport();
   };
 
   const handleBulkDelete = () => {
@@ -62,13 +57,6 @@ const ProductActions = ({
             Thêm sản phẩm
           </button>
 
-          <button
-            onClick={handleImport}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            <Upload className="w-4 h-4" />
-            Nhập từ Excel
-          </button>
 
           <button
             onClick={handleExport}

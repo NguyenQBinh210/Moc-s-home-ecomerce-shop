@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router";
 import { Star, Truck, RefreshCw } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../../slice/cartSlice";
+import { toast } from "react-toastify";
 const API_URL = "http://localhost:3000";
 
 function getRandomProducts(allProducts, currentId, count = 4) {
@@ -58,35 +59,48 @@ const ProductDetail = () => {
     };
     fetchProductData();
   }, [productId]);
-  const changeImage = (src) => setMainImage(src);
-  const increaseQuantity = () => setQuantity((prev) => prev + 1);
-  const decreaseQuantity = () =>
-    quantity > 1 && setQuantity((prev) => prev - 1);
+    const changeImage = (src) => setMainImage(src);
+    const increaseQuantity = () => {
+      if (product && quantity < product.so_luong) {
+        setQuantity((prev) => prev + 1);
+      } else {
+        toast.warn(`Chỉ còn ${product.so_luong} sản phẩm trong kho!`);
+      }
+    };
+    const decreaseQuantity = () =>
+      quantity > 1 && setQuantity((prev) => prev - 1);
 
-  const handleAddToCart = () => {
-    if (product) {
-      const itemToAdd = { ...product, quantity: quantity };
-      dispatch(addToCart(itemToAdd));
-      setQuantity(1);
-    }
-  };
+    const handleAddToCart = () => {
+      if (product) {
+        if (quantity > product.so_luong) {
+          toast.error(
+            `Số lượng chọn (${quantity}) vượt quá số lượng tồn kho (${product.so_luong}).`
+          );
+          setQuantity(product.so_luong);
+          return;
+        }
+        const itemToAdd = { ...product, quantity: quantity };
+        dispatch(addToCart(itemToAdd));
+        setQuantity(1);
+      }
+    };
 
-  const formatPrice = (price) => {
-    if (typeof price !== "number") return "Liên hệ";
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    }).format(price);
-  };
+    const formatPrice = (price) => {
+      if (typeof price !== "number") return "Liên hệ";
+      return new Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      }).format(price);
+    };
 
-  if (loading)
-    return (
-      <div className="text-center py-40">Đang tải chi tiết sản phẩm...</div>
-    );
-  if (error)
-    return <div className="text-center py-40 text-red-500">Lỗi: {error}</div>;
-  if (!product)
-    return <div className="text-center py-40">Không tìm thấy sản phẩm.</div>;
+    if (loading)
+      return (
+        <div className="text-center py-40">Đang tải chi tiết sản phẩm...</div>
+      );
+    if (error)
+      return <div className="text-center py-40 text-red-500">Lỗi: {error}</div>;
+    if (!product)
+      return <div className="text-center py-40">Không tìm thấy sản phẩm.</div>;
 
   return (
     <section className="mb-16 lg:mb-20 animate-fade-in pt-16">
@@ -170,6 +184,7 @@ const ProductDetail = () => {
                 </span>
                 <button
                   onClick={increaseQuantity}
+                  disabled={product && quantity >= product.so_luong}
                   className="px-4 py-2 bg-gray-100 border-l hover:bg-orange-500 hover:text-white transition-all w-12"
                 >
                   +
@@ -177,6 +192,7 @@ const ProductDetail = () => {
               </div>
               <button
                 onClick={handleAddToCart}
+                disabled={!product?.so_luong || product.so_luong === 0}
                 className="flex-1 px-8 py-3 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-all font-semibold"
               >
                 Thêm vào giỏ

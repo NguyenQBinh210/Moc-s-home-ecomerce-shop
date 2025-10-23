@@ -58,7 +58,7 @@ const Login = () => {
           {/* Logo */}
           <Link
             to="/"
-            className="flex items-center space-x-2 transition-transform hover:scale-105 duration-300 drop-shadow-lg" // Thêm drop-shadow-lg
+            className="flex items-center space-x-2 transition-transform hover:scale-105 duration-300 drop-shadow-lg"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -79,7 +79,6 @@ const Login = () => {
             <span className="text-2xl font-extrabold text-white drop-shadow-lg">
               Mộc's HOME
             </span>{" "}
-            {/* THAY ĐỔI: font-extrabold và drop-shadow-lg */}
           </Link>
 
           <div className="mt-auto pb-10">
@@ -94,9 +93,6 @@ const Login = () => {
             </p>
           </div>
         </div>
-
-        {/* Decorative Elements */}
-        {/* Có thể chỉnh màu trắng/opacity cho các element trang trí nếu cần */}
         <div className="absolute -bottom-20 -right-20 w-72 h-72 border-4 border-white/20 rounded-full z-0"></div>
         <div className="absolute -top-20 -left-20 w-80 h-80 border-4 border-white/20 rounded-full z-0"></div>
       </div>

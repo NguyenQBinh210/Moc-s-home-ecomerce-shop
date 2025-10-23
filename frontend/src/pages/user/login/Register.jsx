@@ -57,7 +57,7 @@ const Register = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
+    <div className="flex flex-col md:flex-row min-w-screen bg-gray-100">
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -67,7 +67,6 @@ const Register = () => {
         <div className="absolute inset-0 bg-black/40 z-0"></div>
         <div className="z-10 relative flex flex-col h-full">
           <Link to="/" className="flex items-center space-x-2">
-            {/* SVG Logo */}
             <span className="text-2xl font-extrabold text-white">
               Mộc's HOME
             </span>
