@@ -209,7 +209,7 @@ const ProductManagement = () => {
             product={editingProduct}
             isEditing={!!editingProduct}
             categories={categories}
-            suppliers={suppliers} // <-- Truyền suppliers vào
+            suppliers={suppliers} 
           />
         )}
 

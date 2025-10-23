@@ -8,7 +8,7 @@ const initialState = {
 const cartSlice = createSlice({
   name: "cart",
   initialState,
-  
+
   reducers: {
     addToCart: (state, action) => {
       const productToAdd = action.payload;
@@ -16,14 +16,31 @@ const cartSlice = createSlice({
         (item) => item._id === productToAdd._id
       );
       const quantityToAdd = productToAdd.quantity || 1;
+      const available = Number(productToAdd.so_luong ?? Infinity);
+
       if (existingItem) {
-        existingItem.quantity += quantityToAdd;
-        toast.info(
-          `Đã cập nhật số lượng "${productToAdd.ten_san_pham}" trong giỏ hàng`
-        );
+        const newQty = existingItem.quantity + quantityToAdd;
+        if (newQty > available) {
+          existingItem.quantity = available;
+          toast.error(
+            `Không thể thêm quá ${available} "${productToAdd.ten_san_pham}".`
+          );
+        } else {
+          existingItem.quantity = newQty;
+          toast.info(
+            `Đã cập nhật số lượng "${productToAdd.ten_san_pham}" trong giỏ hàng`
+          );
+        }
       } else {
-        state.items.push({ ...productToAdd, quantity: quantityToAdd });
-        toast.success(`Đã thêm "${productToAdd.ten_san_pham}" vào giỏ hàng!`);
+        if (quantityToAdd > available) {
+          state.items.push({ ...productToAdd, quantity: available });
+          toast.error(
+            `Chỉ còn ${available} "${productToAdd.ten_san_pham}" trong kho. Đã thêm ${available}.`
+          );
+        } else {
+          state.items.push({ ...productToAdd, quantity: quantityToAdd });
+          toast.success(`Đã thêm "${productToAdd.ten_san_pham}" vào giỏ hàng!`);
+        }
       }
     },
 
@@ -38,7 +55,14 @@ const cartSlice = createSlice({
     increaseQuantity: (state, action) => {
       const item = state.items.find((item) => item._id === action.payload);
       if (item) {
-        item.quantity += 1;
+        const available = Number(item.so_luong ?? Infinity);
+        if (item.quantity < available) {
+          item.quantity += 1;
+        } else {
+          toast.warn(
+            `Chỉ còn ${available} sản phẩm "${item.ten_san_pham}" trong kho.`
+          );
+        }
       }
     },
 
@@ -52,11 +76,19 @@ const cartSlice = createSlice({
     updateQuantity: (state, action) => {
       const { id, quantity } = action.payload;
       const item = state.items.find((item) => item._id === id);
-      if (item && quantity >= 1) {
-        item.quantity = quantity;
+      if (item) {
+        const available = Number(item.so_luong ?? Infinity);
+        if (quantity < 1) return;
+        if (quantity > available) {
+          item.quantity = available;
+          toast.error(
+            `Chỉ còn ${available} sản phẩm "${item.ten_san_pham}" trong kho.`
+          );
+        } else {
+          item.quantity = quantity;
+        }
       }
     },
-    
   },
 });
 

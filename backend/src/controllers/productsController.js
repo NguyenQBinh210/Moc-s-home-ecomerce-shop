@@ -68,7 +68,7 @@ export const getAllProducts = async (req, res) => {
         sortOption = { ten_san_pham: -1 };
         break;
       case "newest":
-      default: 
+      default:
         sortOption = { created_at: -1 };
         break;
     }
@@ -141,7 +141,6 @@ export const createProduct = async (req, res) => {
       const results = await Promise.all(uploadPromises);
       imageUrls = results.map((result) => result.secure_url);
     }
-
     const newProduct = new SanPham({
       ten_san_pham,
       mo_ta,
@@ -197,7 +196,7 @@ export const updateProduct = async (req, res) => {
   }
 };
 
-export const deleteProduct = async (req, res) => { 
+export const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
     const product = await SanPham.findById(id);

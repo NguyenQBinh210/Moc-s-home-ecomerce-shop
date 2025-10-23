@@ -21,7 +21,7 @@ const Artisans = () => {
       description:
         "Chuyên gia về kỹ thuật bọc ghế và tạo đệm, mang đến sự thoải mái tối ưu cho người sử dụng.",
       image:
-        "https://tse1.mm.bing.net/th/id/OIF.CUqC9tsm2kG8WsgiE8z56Q?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
+        "https://studiochupanhdep.com/Upload/Images/Album/hinh-anh-doanh-nhan.jpg",
       skills: ["Bọc ghế sofa", "Thiết kế đệm", "Chọn vải cao cấp"],
     },
     {

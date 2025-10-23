@@ -58,13 +58,7 @@ const ProductActions = ({
           </button>
 
 
-          <button
-            onClick={handleExport}
-            className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-          >
-            <Download className="w-4 h-4" />
-            Xuất Excel
-          </button>
+
 
           <button
             onClick={onRefresh}

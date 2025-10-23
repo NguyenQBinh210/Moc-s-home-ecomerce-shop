@@ -23,7 +23,7 @@ const Team = () => {
       description:
         "Chuyên gia thiết kế với bằng cấp quốc tế, đã tạo ra hơn 500 mẫu nội thất được yêu thích.",
       image:
-        "https://tse4.mm.bing.net/th/id/OIF.wVEACDtaqpWDKK2Uio3TqQ?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
+        "https://studiochupanhdep.com/Upload/Images/Album/Vest-doanh-nhan-06.jpg",
       expertise: [
         "Thiết kế nội thất",
         "Xu hướng màu sắc",

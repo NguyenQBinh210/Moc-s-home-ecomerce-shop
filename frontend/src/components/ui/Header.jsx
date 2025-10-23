@@ -86,24 +86,17 @@ const Header = () => {
 
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center space-x-4">
-            <Button
-              variant="ghost"
-              size="sm"
-              iconName="Search"
-              iconPosition="left"
-              className="text-text-secondary hover:text-primary"
-            >
-              Search
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              iconName="ShoppingCart"
-              iconPosition="left"
-              className="text-text-secondary hover:text-primary"
-            >
-              <Link to={"cart"}>Cart</Link>
-            </Button>
+            <Link to={"cart"}>
+              <Button
+                variant="ghost"
+                size="sm"
+                iconName="ShoppingCart"
+                iconPosition="left"
+                className="text-text-secondary hover:text-primary hover:cursor-pointer hover:bg-amber-500 hover:text-white"
+              >
+                Cart
+              </Button>
+            </Link>
 
             {user && user.role !== "admin" ? (
               <div className="relative group">

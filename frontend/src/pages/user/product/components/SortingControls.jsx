@@ -17,7 +17,6 @@ const SortingControls = ({
     { value: "relevance", label: "Liên quan nhất", icon: "Target" },
     { value: "price-low-high", label: "Giá: Thấp đến Cao", icon: "ArrowUp" },
     { value: "price-high-low", label: "Giá: Cao đến Thấp", icon: "ArrowDown" },
-    { value: "rating", label: "Đánh giá cao nhất", icon: "Star" },
     { value: "newest", label: "Mới nhất", icon: "Clock" },
     { value: "popular", label: "Phổ biến nhất", icon: "TrendingUp" },
     { value: "name-a-z", label: "Tên: A-Z", icon: "ArrowUp" },
