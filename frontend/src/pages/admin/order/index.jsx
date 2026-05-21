@@ -12,8 +12,9 @@ import {
   Clock,
 } from "lucide-react";
 import { toast } from "react-toastify";
+import { API_BASE_URL_WITH_API } from "../../../config/api";
 
-const API_URL = "http://localhost:3000/api";
+const API_URL = API_BASE_URL_WITH_API;
 
 const OrderManagementPage = () => {
   const [orders, setOrders] = useState([]);

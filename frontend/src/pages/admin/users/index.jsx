@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Users, Search, Edit, Trash2, X } from "lucide-react";
 import { toast } from "react-toastify";
+import { API_BASE_URL_WITH_API } from "../../../config/api";
 
-const API_URL = "http://localhost:3000/api";
+const API_URL = API_BASE_URL_WITH_API;
 
 const UserManagementPage = () => {
   const [users, setUsers] = useState([]);

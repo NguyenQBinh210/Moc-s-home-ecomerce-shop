@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify'; 
+import { API_BASE_URL_WITH_API } from '../../../config/api';
 
 const ChangePasswordModal = ({ isOpen, onClose }) => {
   const [oldPassword, setOldPassword] = useState('');
@@ -21,7 +22,7 @@ const ChangePasswordModal = ({ isOpen, onClose }) => {
     }
 
     try {
-      const response = await fetch('/api/auth/change-password', {
+      const response = await fetch(`${API_BASE_URL_WITH_API}/auth/change-password`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

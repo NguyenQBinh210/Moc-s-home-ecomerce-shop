@@ -1,13 +1,21 @@
-const API_BASE_URL =  'http://localhost:3000';
+import { API_BASE_URL } from "../config/api";
+
 const apiCall = async (endpoint, options = {}) => {
   const url = `${API_BASE_URL}${endpoint}`;
+  const isFormData = options.body instanceof FormData;
+  const headers = { ...(options.headers || {}) };
+
+  if (isFormData) {
+    delete headers["Content-Type"];
+  } else if (!headers["Content-Type"]) {
+    headers["Content-Type"] = "application/json";
+  }
   
   const config = {
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
     ...options,
+    headers: {
+      ...headers,
+    },
   };
 
   try {

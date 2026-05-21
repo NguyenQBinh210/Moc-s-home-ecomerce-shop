@@ -8,10 +8,9 @@ import {
 
 const ProductFilters = ({ 
   onSearch, 
-  onFilter, 
-  onSort, 
+  // onFilter, 
   onReset,
-  categories = [],
+  // categories = [],
   totalProducts = 0,
   filteredCount = 0
 }) => {
@@ -33,21 +32,12 @@ const ProductFilters = ({
     onSearch(value);
   };
 
-  const handleFilterChange = (key, value) => {
-    const newFilters = { ...filters, [key]: value };
-    setFilters(newFilters);
-    onFilter(newFilters);
-  };
+  // const handleFilterChange = (key, value) => {
+  //   const newFilters = { ...filters, [key]: value };
+  //   setFilters(newFilters);
+  //   onFilter(newFilters);
+  // };
 
-  const handleSortChange = (field) => {
-    if (sortBy === field) {
-      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortBy(field);
-      setSortOrder('asc');
-    }
-    onSort(field, sortBy === field ? (sortOrder === 'asc' ? 'desc' : 'asc') : 'asc');
-  };
 
   const handleReset = () => {
     setSearchTerm('');
@@ -83,13 +73,15 @@ const ProductFilters = ({
             <Filter className="w-5 h-5 text-amber-600" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">Bộ lọc sản phẩm</h3>
+            <h3 className="text-lg font-semibold text-gray-900">
+              Bộ lọc sản phẩm
+            </h3>
             <p className="text-sm text-gray-500">
               Hiển thị {filteredCount} trong tổng số {totalProducts} sản phẩm
             </p>
           </div>
         </div>
-        
+
         <div className="flex items-center gap-2">
           {activeFiltersCount > 0 && (
             <button
@@ -100,14 +92,18 @@ const ProductFilters = ({
               Xóa bộ lọc ({activeFiltersCount})
             </button>
           )}
-          
+
           <button
             onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
             className="flex items-center gap-2 px-3 py-1.5 text-sm text-amber-600 bg-amber-50 rounded-lg hover:bg-amber-100 transition-colors"
           >
             <Filter className="w-4 h-4" />
             Bộ lọc nâng cao
-            <ChevronDown className={`w-4 h-4 transition-transform ${showAdvancedFilters ? 'rotate-180' : ''}`} />
+            <ChevronDown
+              className={`w-4 h-4 transition-transform ${
+                showAdvancedFilters ? "rotate-180" : ""
+              }`}
+            />
           </button>
         </div>
       </div>
@@ -121,40 +117,37 @@ const ProductFilters = ({
             value={searchTerm}
             onChange={handleSearchChange}
             placeholder="Tìm kiếm sản phẩm theo tên, mô tả..."
-            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+            className="w-[85%] pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
           />
         </div>
       </div>
 
       {/* Quick Filters */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-        {/* Category Filter */}
+      {/* <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Danh mục
           </label>
           <select
             value={filters.category}
-            onChange={(e) => handleFilterChange('category', e.target.value)}
+            onChange={(e) => handleFilterChange("category", e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
           >
             <option value="">Tất cả danh mục</option>
-            {categories.map(category => (
+            {categories.map((category) => (
               <option key={category.id} value={category.name}>
                 {category.name}
               </option>
             ))}
           </select>
         </div>
-
-        {/* Status Filter */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Trạng thái
           </label>
           <select
             value={filters.status}
-            onChange={(e) => handleFilterChange('status', e.target.value)}
+            onChange={(e) => handleFilterChange("status", e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
           >
             <option value="">Tất cả trạng thái</option>
@@ -163,15 +156,13 @@ const ProductFilters = ({
             <option value="draft">Bản nháp</option>
           </select>
         </div>
-
-        {/* Price Range Filter */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Khoảng giá
           </label>
           <select
             value={filters.priceRange}
-            onChange={(e) => handleFilterChange('priceRange', e.target.value)}
+            onChange={(e) => handleFilterChange("priceRange", e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
           >
             <option value="">Tất cả mức giá</option>
@@ -182,15 +173,13 @@ const ProductFilters = ({
             <option value="50000000-999999999">Trên 50 triệu</option>
           </select>
         </div>
-
-        {/* Stock Range Filter */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Tồn kho
           </label>
           <select
             value={filters.stockRange}
-            onChange={(e) => handleFilterChange('stockRange', e.target.value)}
+            onChange={(e) => handleFilterChange("stockRange", e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
           >
             <option value="">Tất cả</option>
@@ -199,71 +188,21 @@ const ProductFilters = ({
             <option value="11-999999">Còn hàng (10+)</option>
           </select>
         </div>
-      </div>
-
-      {/* Advanced Filters */}
-      {showAdvancedFilters && (
-        <div className="border-t border-gray-200 pt-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-            {/* Date Range Filter */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Khoảng thời gian
-              </label>
-              <select
-                value={filters.dateRange}
-                onChange={(e) => handleFilterChange('dateRange', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-              >
-                <option value="">Tất cả thời gian</option>
-                <option value="today">Hôm nay</option>
-                <option value="week">Tuần này</option>
-                <option value="month">Tháng này</option>
-                <option value="quarter">Quý này</option>
-                <option value="year">Năm nay</option>
-                <option value="custom">Tùy chỉnh</option>
-              </select>
-            </div>
-
-            {/* Brand Filter */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Thương hiệu
-              </label>
-              <input
-                type="text"
-                placeholder="Nhập thương hiệu"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-              />
-            </div>
-
-            {/* Material Filter */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Chất liệu
-              </label>
-              <input
-                type="text"
-                placeholder="Nhập chất liệu"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-              />
-            </div>
-          </div>
-        </div>
-      )}
-
-      {activeFiltersCount > 0 && (
+      </div> */}
+      {/* {activeFiltersCount > 0 && (
         <div className="border-t border-gray-200 pt-4 mt-4">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-sm font-medium text-gray-700">Bộ lọc đang áp dụng:</span>
-            
+            <span className="text-sm font-medium text-gray-700">
+              Bộ lọc đang áp dụng:
+            </span>
+
             {searchTerm && (
               <span className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">
                 Tìm kiếm: "{searchTerm}"
                 <button
                   onClick={() => {
-                    setSearchTerm('');
-                    onSearch('');
+                    setSearchTerm("");
+                    onSearch("");
                   }}
                   className="ml-1 hover:bg-blue-200 rounded-full p-0.5"
                 >
@@ -276,7 +215,7 @@ const ProductFilters = ({
               <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">
                 Danh mục: {filters.category}
                 <button
-                  onClick={() => handleFilterChange('category', '')}
+                  onClick={() => handleFilterChange("category", "")}
                   className="ml-1 hover:bg-green-200 rounded-full p-0.5"
                 >
                   <X className="w-3 h-3" />
@@ -288,7 +227,7 @@ const ProductFilters = ({
               <span className="inline-flex items-center gap-1 px-2 py-1 bg-purple-100 text-purple-800 rounded-full text-xs">
                 Trạng thái: {filters.status}
                 <button
-                  onClick={() => handleFilterChange('status', '')}
+                  onClick={() => handleFilterChange("status", "")}
                   className="ml-1 hover:bg-purple-200 rounded-full p-0.5"
                 >
                   <X className="w-3 h-3" />
@@ -300,7 +239,7 @@ const ProductFilters = ({
               <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">
                 Giá: {filters.priceRange}
                 <button
-                  onClick={() => handleFilterChange('priceRange', '')}
+                  onClick={() => handleFilterChange("priceRange", "")}
                   className="ml-1 hover:bg-yellow-200 rounded-full p-0.5"
                 >
                   <X className="w-3 h-3" />
@@ -309,7 +248,7 @@ const ProductFilters = ({
             )}
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

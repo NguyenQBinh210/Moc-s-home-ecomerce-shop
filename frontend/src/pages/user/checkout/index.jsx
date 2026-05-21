@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router";
 import { toast } from "react-toastify";
+import { API_BASE_URL_WITH_API } from "../../../config/api";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -76,7 +77,7 @@ const Checkout = () => {
         setQrUrl(qr);
         toast("Vui lòng quét mã QR để thanh toán!");
       } else {
-        const response = await fetch("http://localhost:3000/api/orders", {
+        const response = await fetch(`${API_BASE_URL_WITH_API}/orders`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -342,7 +343,7 @@ const Checkout = () => {
                             `.trim();
 
                         const response = await fetch(
-                          "http://localhost:3000/api/orders",
+                          `${API_BASE_URL_WITH_API}/orders`,
                           {
                             method: "POST",
                             headers: {

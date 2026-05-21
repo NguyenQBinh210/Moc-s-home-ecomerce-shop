@@ -4,7 +4,9 @@ import { Star, Truck, RefreshCw } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../../slice/cartSlice";
 import { toast } from "react-toastify";
-const API_URL = "http://localhost:3000";
+import { API_BASE_URL } from "../../../config/api";
+
+const API_URL = API_BASE_URL;
 
 function getRandomProducts(allProducts, currentId, count = 4) {
   const filtered = allProducts.filter((p) => p._id !== currentId);

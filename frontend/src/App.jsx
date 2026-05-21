@@ -22,6 +22,7 @@ import UserManagementPage from "./pages/admin/users";
 import OrderManagementPage from "./pages/admin/order";
 import Setting from "./pages/admin/setting";
 import AccountPage from "./pages/user/login/AccountPage";
+import { API_BASE_URL_WITH_API } from "./config/api";
 function App() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
@@ -29,7 +30,7 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token && !user) {
-      fetch("/api/auth/me", {
+      fetch(`${API_BASE_URL_WITH_API}/auth/me`, {
         headers: { Authorization: `Bearer ${token}` },
       })
         .then((res) => res.json())

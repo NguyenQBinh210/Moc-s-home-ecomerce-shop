@@ -2,6 +2,7 @@ import { toast, ToastContainer } from "react-toastify";
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router";
 import { useAuth } from "../../../context/AuthContext";
+import { API_BASE_URL } from "../../../config/api";
 
 
 const Login = () => {
@@ -15,7 +16,7 @@ const Login = () => {
     e.preventDefault();
     setError("");
     try {
-      const response = await fetch("http://localhost:3000/auth/login", {
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
