@@ -39,6 +39,12 @@ const isAllowedOrigin = (origin) => {
 // Middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "Moc's HOME API is running",
+  });
+});
 app.route("/").post(authMiddleware, createOrder);
 // CORS middleware
 app.use((req, res, next) => {
@@ -79,6 +85,14 @@ app.get("/health", (req, res) => {
     success: true, 
     message: "Server is running", 
     timestamp: new Date().toISOString() 
+  });
+});
+
+app.get("/api/health", (req, res) => {
+  res.json({
+    success: true,
+    message: "Server is running",
+    timestamp: new Date().toISOString(),
   });
 });
 
