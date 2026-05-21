@@ -5,9 +5,9 @@ import ProductModal from "./components/ProductModal";
 import ProductFilters from "./components/ProductFilters";
 import ProductActions from "./components/ProductActions";
 import { toast, ToastContainer } from "react-toastify";
-import { API_BASE_URL } from "../../../config/api";
+import { API_BASE_URL_WITH_API } from "../../../config/api";
 
-const API_URL = API_BASE_URL;
+const API_URL = API_BASE_URL_WITH_API;
 
 const ProductManagement = () => {
   // --- STATE MANAGEMENT ---

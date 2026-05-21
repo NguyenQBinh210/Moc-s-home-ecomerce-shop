@@ -1,7 +1,7 @@
-import { API_BASE_URL } from "../config/api";
+import { API_BASE_URL_WITH_API } from "../config/api";
 
 const apiCall = async (endpoint, options = {}) => {
-  const url = `${API_BASE_URL}${endpoint}`;
+  const url = `${API_BASE_URL_WITH_API}${endpoint}`;
   const isFormData = options.body instanceof FormData;
   const headers = { ...(options.headers || {}) };
 

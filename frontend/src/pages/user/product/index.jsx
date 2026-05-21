@@ -7,9 +7,9 @@ import ProductGrid from "./components/ProductGrid";
 import QuickViewModal from "./components/QuickViewModal";
 import Pagination from "./components/Pagination";
 import Button from "../../../components/ui/Button";
-import { API_BASE_URL } from "../../../config/api";
+import { API_BASE_URL_WITH_API } from "../../../config/api";
 
-const API_URL = API_BASE_URL;
+const API_URL = API_BASE_URL_WITH_API;
 
 const Product = () => {
   const [searchParams, setSearchParams] = useSearchParams();
