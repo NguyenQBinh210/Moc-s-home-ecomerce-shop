@@ -25,6 +25,17 @@ const configuredOrigins = (
   .filter(Boolean);
 const allowedOrigins = [...localOrigins, ...configuredOrigins];
 
+const isAllowedOrigin = (origin) => {
+  if (!origin || allowedOrigins.includes(origin)) return true;
+
+  try {
+    const { hostname } = new URL(origin);
+    return hostname.endsWith(".vercel.app");
+  } catch {
+    return false;
+  }
+};
+
 // Middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
@@ -33,7 +44,7 @@ app.route("/").post(authMiddleware, createOrder);
 app.use((req, res, next) => {
   const origin = req.headers.origin;
 
-  if (!origin || allowedOrigins.includes(origin)) {
+  if (isAllowedOrigin(origin)) {
     res.header("Access-Control-Allow-Origin", origin || "*");
   }
 
